@@ -18,10 +18,11 @@ int main(void) {
 	int operando1;
 	int operando2;
 
-	int opcion=menu();
+	int opcion;
 
-	while(opcion != 5)
+	do
 	{
+		opcion = menu();
 		switch(opcion)
 		{
 		case 1:
@@ -42,9 +43,9 @@ int main(void) {
 			break;
 
 		}
-		opcion=menu();
+
 		system("cls");
-	}
+	}while(opcion != 5);
 
 
 
