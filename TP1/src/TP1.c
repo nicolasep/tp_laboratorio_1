@@ -14,101 +14,128 @@
 
 int main(void) {
 
+	setbuf(stdout,NULL);
 
+	//VARIABLES PARA DATOS INGRESADOS
 	int operando1;
 	int operando2;
 
-	int opcion;
+	//VARIABLE PARA SALIR DEL WHILE
+	int salir = 1;
+
+	//VANDERAS PARA CONTROL DEL ACCESO DE DATOS
 	int flagOperando1 = 0;
 	int flagOperando2 = 0;
 	int flagDivision;
+	int flagFactorialOp1;
+	int flagFactorialOp2;
+	int flagOperaciones = 0;
+
+	//VARIABLES DE RESULTADOS
 	int resultadoSuma;
 	int resultadoResta;
 	int resultadoMultiplicacion;
 	float resultadoDivision;
-	int resultadoFactorialOp1;
-	int resultadoFactorialOp2;
+	long resultadoFactorialOp1;
+	long resultadoFactorialOp2;
 
-
-
-	/*printf("1 - Ingresar operando 1\n");
-	printf("2 - Ingresar operando 2\n");
-	printf("3 - Calcular operaciones\n");
-	printf("4 - Mostrar resultados\n");
-	printf("5 - Salir\n");*/
 	do
 	{
-		opcion = menu();
-		switch(opcion)
+		system("cls");
+
+		switch(menu())
 		{
 		case 1:
-			printf("Ingrese operando 1: ");
+
+			printf("Ingrese operando A: ");
 			scanf("%d",&operando1);
-			if(flagOperando1)
-			{
-				flagOperando1 = 0;
-			}
-			else
-			{
-				flagOperando1 = 1;
-			}
+			//SI EL USUARIO ESTA VOLVIENDO A INGRASAR UN NUMERO DE ESTA FORMA EXIGE EL CALCULO NUEVO DE OPERACIONES
 
+			flagOperando1 = 1;
+			flagOperaciones = 0;
 
 			break;
+
 		case 2:
-			printf("Ingrese operando 2: ");
+
+			printf("Ingrese operando B: ");
 			scanf("%d",&operando2);
-			if(flagOperando2)
-			{
-				flagOperando2 = 0;
-			}
-			else
-			{
-				flagOperando2 = 1;
-			}
+			//SI EL USUARIO ESTA VOLVIENDO A INGRASAR UN NUMERO DE ESTA FORMA EXIGE EL CALCULO NUEVO DE OPERACIONES
+
+			flagOperando2 = 1;
+			flagOperaciones = 0;
+
 			break;
+
 		case 3:
+			//DE ESTA FORMA EVALUO QUE USUARIO HALLA INGRESADO AMBOS DATOS PARA EL CALCULO DE OPERACIONES
 			if(flagOperando1 && flagOperando2)
 			{
 				resultadoSuma = sumar(operando1,operando2);
 				resultadoResta = restar(operando1,operando2);
 				resultadoMultiplicacion = multiplicar(operando1,operando2);
 				flagDivision = dividir(operando1,operando2,&resultadoDivision);
-				resultadoFactorialOp1 = factorial(operando1);
-				resultadoFactorialOp2 = factorial(operando2);
+				flagFactorialOp1 = factorial(operando1,&resultadoFactorialOp1);
+				flagFactorialOp2 = factorial(operando2,&resultadoFactorialOp2);
+				flagOperaciones = 1;
+				printf("OPERACIONES REALIZADAS CON EXITO!!!\n");
 			}
 			else
 			{
-				printf("Primero debe ingresar operandos!!!\n");
+				printf("PRIMERO DEBE INGRESAR AMBOS OPERANDOS!!!\n");
 			}
 
 			break;
+
 		case 4:
-			printf("El resultado de la suma es: %d\n",resultadoSuma);
-			printf("El resultado de la resta es: %d\n",resultadoResta);
-			printf("El resultado de la multiplicacion es: %d\n",resultadoMultiplicacion);
-			if(flagDivision)
+			//MUESTRA UNA ALERTA SI EL USUARIO QUIERE INFORMAR LOS RESULTADOS SI ANTES CALCULARLOS O SI FUERON MODIFICADOS
+			if(flagOperaciones)
 			{
-				printf("El resultado de la division es: %.2f\n",resultadoDivision);
+				printf("OPERANDO A: %d\n",operando1);
+				printf("OPERANDO B: %d\n",operando2);
+
+				printf("El resultado de la suma es: %d\n",resultadoSuma);
+				printf("El resultado de la resta es: %d\n",resultadoResta);
+				printf("El resultado de la multiplicacion es: %d\n",resultadoMultiplicacion);
+				if(flagDivision)
+				{
+					printf("El resultado de la division es: %.2f\n",resultadoDivision);
+				}
+				else
+				{
+					printf("No se puede dividir por 0");
+				}
+				if(flagFactorialOp1)
+				{
+					printf("El resultado del factorial del operando A es: %li\n",resultadoFactorialOp1);
+				}
+
+				if(flagFactorialOp2)
+				{
+					printf("El resultado del factorial del operando B es: %li\n",resultadoFactorialOp2);
+				}
 			}
 			else
 			{
-				printf("No se puede dividir por 0");
+				printf("PRIMERO DEBE CALCULAR LAS OPERACIONES!!!\n");
 			}
 
-			printf("El resultado del factorial del operando 1 es: %d\n",resultadoFactorialOp1);
-			printf("El resultado del factorial del operando 2 es: %d\n",resultadoFactorialOp2);
-
 			break;
+
 		case 5:
-			break;
-		default:
+			salir = 0;
+
 			break;
 
+		default:
+			printf("OPCION INCORRECTA!!!\n");
+
+			break;
 		}
 
-		system("cls");
-	}while(opcion != 5);
+		system("pause");
+
+	}while(salir);
 
 
 

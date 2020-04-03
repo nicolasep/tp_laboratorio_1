@@ -13,7 +13,7 @@ int sumar(int numero1, int numero2);
 int restar(int numero1, int numero2);
 int multiplicar(int numero1, int numero2);
 float dividir(int numero1, int numero2, float* resultado);
-long factorial(int numero);
+int factorial(int numero, long* resultado);
 
 
 #endif /* UTN_H_ */

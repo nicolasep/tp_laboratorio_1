@@ -12,8 +12,8 @@ int menu()
 {
 	int opcion;
 	printf("Elija una opcion:\n");
-	printf("1 - Ingresar operando 1\n");
-	printf("2 - Ingresar operando 2\n");
+	printf("1 - Ingresar operando A\n");
+	printf("2 - Ingresar operando B\n");
 	printf("3 - Calcular operaciones\n");
 	printf("4 - Mostrar resultados\n");
 	printf("5 - Salir\n");
@@ -48,15 +48,22 @@ int dividir(int numero1, int numero2, float* respuesta)
 
 	return flag;
 }
-long factorial(int numero)
+int factorial(int numero, long* resultado)
 {
 	long factorial=1;
-	for(int i=numero;i>0;i--)
+	int flag = 0;
+
+	if(numero > 0)
 	{
-	factorial = factorial * i;
+		for(int i=numero;i>0;i--)
+		{
+		factorial = factorial * i;
+		}
+		*resultado = factorial;
+		flag = 1;
 	}
 
-	return factorial;
+	return flag;
 }
 
 
