@@ -5,6 +5,9 @@
  *      Author: nico
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+
 int menu()
 {
 	int opcion;
@@ -19,21 +22,31 @@ int menu()
 	return opcion;
 }
 
-int suma(int numero1, int numero2)
+int sumar(int numero1, int numero2)
 {
-	return (numero1+numero2);
+	int respuesta = numero1+numero2;
+	return respuesta;
 }
-int resta(int numero1, int numero2)
+int restar(int numero1, int numero2)
 {
-	return (numero1-numero2);
+	int respuesta = numero1-numero2;
+	return respuesta;
 }
-int multiplicacion(int numero1, int numero2)
+int multiplicar(int numero1, int numero2)
 {
-	return (numero1*numero2);
+	int respuesta = numero1*numero2;
+	return respuesta;
 }
-float division(int numero1, int numero2)
+int dividir(int numero1, int numero2, float* respuesta)
 {
-	return ((float)numero1/numero2);
+	int flag = 0;
+	if(numero2 != 0)
+	{
+		*respuesta = (float)numero1/numero2;
+		flag = 1;
+	}
+
+	return flag;
 }
 long factorial(int numero)
 {
