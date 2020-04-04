@@ -109,10 +109,18 @@ int main(void) {
 				{
 					printf("El resultado del factorial del operando A es: %li\n",resultadoFactorialOp1);
 				}
+				else
+				{
+					printf("No se puede calcular el factorial del operando A por que el numero ingresado debe ser mayor a 0\n");
+				}
 
 				if(flagFactorialOp2)
 				{
 					printf("El resultado del factorial del operando B es: %li\n",resultadoFactorialOp2);
+				}
+				else
+				{
+					printf("No se puede calcular el factorial del operando B por que el numero ingresado debe ser mayor a 0\n");
 				}
 			}
 			else
