@@ -1,10 +1,10 @@
 /*
  ============================================================================
  Name        : TP1.c
- Author      : 
- Version     :
+ Author      : Nicolas Eduardo Perez
+ Version     : 4.1
  Copyright   : Your copyright notice
- Description : Hello World in C, Ansi-style
+ Description : Ansi-style, Calculadora en C
  ============================================================================
  */
 
@@ -23,7 +23,7 @@ int main(void) {
 	//VARIABLE PARA SALIR DEL WHILE
 	int salir = 1;
 
-	//VANDERAS PARA CONTROL DEL ACCESO DE DATOS
+	//VANDERAS PARA VERIFICAR RETORNOS
 	int flagOperando1 = 0;
 	int flagOperando2 = 0;
 	int flagDivision;
@@ -43,7 +43,7 @@ int main(void) {
 	{
 		system("cls");
 
-		switch(menu())
+		switch(menu(operando1,operando2,flagOperando1,flagOperando2))
 		{
 		case 1:
 
@@ -73,8 +73,8 @@ int main(void) {
 			{
 				resultadoSuma = sumar(operando1,operando2);
 				resultadoResta = restar(operando1,operando2);
-				resultadoMultiplicacion = multiplicar(operando1,operando2);
 				flagDivision = dividir(operando1,operando2,&resultadoDivision);
+				resultadoMultiplicacion = multiplicar(operando1,operando2);
 				flagFactorialOp1 = factorial(operando1,&resultadoFactorialOp1);
 				flagFactorialOp2 = factorial(operando2,&resultadoFactorialOp2);
 				flagOperaciones = 1;
@@ -88,40 +88,49 @@ int main(void) {
 			break;
 
 		case 4:
-			//MUESTRA UNA ALERTA SI EL USUARIO QUIERE INFORMAR LOS RESULTADOS SI ANTES CALCULARLOS O SI FUERON MODIFICADOS
+			//MUESTRA UNA ALERTA SI EL USUARIO QUIERE INFORMAR LOS RESULTADOS SIN ANTES CALCULAR LAS OPERACIONES
+			//O SI ALGUN OPERANDO FUE MODIFICADO
+			//SI TODO ESTA BIEN INFORMA RESULTADOS
 			if(flagOperaciones)
 			{
-				printf("OPERANDO A: %d\n",operando1);
-				printf("OPERANDO B: %d\n",operando2);
+				printf("El resultado de A+B es: %d\n",resultadoSuma);
+				printf("El resultado de A-B es: %d\n",resultadoResta);
 
-				printf("El resultado de la suma es: %d\n",resultadoSuma);
-				printf("El resultado de la resta es: %d\n",resultadoResta);
-				printf("El resultado de la multiplicacion es: %d\n",resultadoMultiplicacion);
-				if(flagDivision)
+				if(flagDivision)//VERIFICA QUE EL OPERANDO B NO SEA 0 Y EN ESE CASO MUESTRA EL ERROR
 				{
-					printf("El resultado de la division es: %.2f\n",resultadoDivision);
+					printf("El resultado de A/B es: %.2f\n",resultadoDivision);
 				}
 				else
 				{
-					printf("No se puede dividir por 0");
-				}
-				if(flagFactorialOp1)
-				{
-					printf("El resultado del factorial del operando A es: %li\n",resultadoFactorialOp1);
-				}
-				else
-				{
-					printf("No se puede calcular el factorial del operando A por que el numero ingresado debe ser mayor a 0\n");
+					printf("No se puede dividir por 0\n");
 				}
 
-				if(flagFactorialOp2)
+				printf("El resultado de A*B es: %d\n",resultadoMultiplicacion);
+
+
+
+				if(flagFactorialOp1 && flagFactorialOp2)//VERIFICA QUE LOS OPERANDOS SEAN MAYOR QUE 0, DE LO CONTRARIO MUESTRA ERROR SEGUN EL CASO
 				{
-					printf("El resultado del factorial del operando B es: %li\n",resultadoFactorialOp2);
+					printf("El factorial de A es: %li y El factorial de B es: %li\n",resultadoFactorialOp1,resultadoFactorialOp1);
 				}
 				else
 				{
-					printf("No se puede calcular el factorial del operando B por que el numero ingresado debe ser mayor a 0\n");
+					if(flagFactorialOp1 == 0 && flagFactorialOp2)
+					{
+						printf("No se puede calcular el factorial del operando A por que el numero ingresado debe ser mayor a 0\n");
+						printf("El resultado del factorial del operando B es: %li\n",resultadoFactorialOp2);
+					}
+					else if(flagFactorialOp1 && flagFactorialOp2 == 0)
+					{
+						printf("El resultado del factorial del operando A es: %li\n",resultadoFactorialOp1);
+						printf("No se puede calcular el factorial del operando B por que el numero ingresado debe ser mayor a 0\n");
+					}
+					else
+					{
+						printf("No se puede calcular el factorial de A y B por que ambos deben ser mayor a 0\n");
+					}
 				}
+
 			}
 			else
 			{
@@ -147,6 +156,8 @@ int main(void) {
 
 
 
+	copia();
+	system("pause");
 
 	return EXIT_SUCCESS;
 }

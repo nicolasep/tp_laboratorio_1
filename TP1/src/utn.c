@@ -2,21 +2,36 @@
  * utn.c
  *
  *  Created on: 24 mar. 2020
- *      Author: nico
+ *      Author: Nicolas Eduardo Perez
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-int menu()
+int menu(int operando1, int operando2,int flag1, int flag2)
 {
 	int opcion;
 	printf("Elija una opcion:\n");
-	printf("1 - Ingresar operando A\n");
-	printf("2 - Ingresar operando B\n");
-	printf("3 - Calcular operaciones\n");
-	printf("4 - Mostrar resultados\n");
-	printf("5 - Salir\n");
+	if(flag1 == 0)
+	{
+		printf("1 - Ingresar 1er operando A\n");
+	}
+	else
+	{
+		printf("1 - Ingresar 1er operando A = %d\n",operando1);
+	}
+	if(flag2 == 0)
+	{
+		printf("2 - Ingresar 2do operando B\n");
+	}
+	else
+	{
+		printf("2 - Ingresar 1er operando B = %d\n",operando2);
+	}
+
+	printf("3 - Calcular todas las operaciones\n");
+	printf("4 - Informar resultados\n");
+	printf("5 - SALIR\n");
 	scanf("%d",&opcion);
 
 	return opcion;
@@ -45,7 +60,6 @@ int dividir(int numero1, int numero2, float* respuesta)
 		*respuesta = (float)numero1/numero2;
 		flag = 1;
 	}
-
 	return flag;
 }
 int factorial(int numero, long* resultado)
@@ -67,4 +81,73 @@ int factorial(int numero, long* resultado)
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void copia()
+{
+	printf("\nTRABAJO PRACTICO N 1, PROGRAMADO POR NICOLAS EDUARDO PEREZ, DIVISION 1H\n");
+}
 
