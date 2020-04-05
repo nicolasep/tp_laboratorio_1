@@ -111,7 +111,7 @@ int main(void) {
 
 				if(flagFactorialOp1 && flagFactorialOp2)//VERIFICA QUE LOS OPERANDOS SEAN MAYOR QUE 0, DE LO CONTRARIO MUESTRA ERROR SEGUN EL CASO
 				{
-					printf("El factorial de A es: %li y El factorial de B es: %li\n",resultadoFactorialOp1,resultadoFactorialOp1);
+					printf("El factorial de A es: %li y El factorial de B es: %li\n",resultadoFactorialOp1,resultadoFactorialOp2);
 				}
 				else
 				{
