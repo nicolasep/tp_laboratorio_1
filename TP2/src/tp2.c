@@ -10,6 +10,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 
 typedef struct
 {
@@ -33,23 +35,29 @@ int removeEmployee(eEmployee* list, int len, int id);
 int sortEmployees(eEmployee* list, int len, int order);
 int printEmployees(eEmployee* list, int len);
 
+int pedirPalabra(char* mensaje, char* mensajeError, char* palabra, int tamMin, int tamMax);
+int validaPalabra(char* palabra, int tamMin, int tamMax);
+
+int esLetra(char letra);
+int pedirNumero(char* mensaje, char* mensajeError, int* retorno);
+int esNumero(char* buffer, int* retorno);
 
 int main(void) {
-	/*El sistema deberá tener el siguiente menú de opciones:
-	1. ALTAS: Se debe permitir ingresar un empleado calculando automáticamente el número
-	de Id. El resto de los campos se le pedirá al usuario.
-	2. MODIFICAR: Se ingresará el Número de Id, permitiendo modificar: o Nombre o Apellido
-	o Salario o Sector
-	3. BAJA: Se ingresará el Número de Id y se eliminará el empleado del sistema.
-	4. INFORMAR:
-	1. Listado de los empleados ordenados alfabéticamente por Apellido y Sector.
-	2. Total y promedio de los salarios, y cuántos empleados superan el salario promedio.
-	NOTA: Se deberá realizar el menú de opciones y las validaciones a través de funciones.
-	Tener en cuenta que no se podrá ingresar a los casos 2, 3 y 4; sin antes haber realizado la
-	carga de algún empleado.
-	 * */
 
-	eEmployee listaEmpleados[TAM];
+
+	//El sistema deberá tener el siguiente menú de opciones:
+	//1. ALTAS: Se debe permitir ingresar un empleado calculando automáticamente el número
+	//de Id. El resto de los campos se le pedirá al usuario.
+	//2. MODIFICAR: Se ingresará el Número de Id, permitiendo modificar: o Nombre o Apellido
+	//o Salario o Sector
+	//3. BAJA: Se ingresará el Número de Id y se eliminará el empleado del sistema.
+	//4. INFORMAR:
+	//1. Listado de los empleados ordenados alfabéticamente por Apellido y Sector.
+	//2. Total y promedio de los salarios, y cuántos empleados superan el salario promedio.
+	//NOTA: Se deberá realizar el menú de opciones y las validaciones a través de funciones.
+	//Tener en cuenta que no se podrá ingresar a los casos 2, 3 y 4; sin antes haber realizado la carga de algun empleado.
+
+	//eEmployee listaEmpleados[TAM];
 
 
 
@@ -62,9 +70,10 @@ int initEmployees(eEmployee* list, int len)
 {
 	int flag = 0;
 	int i;
+
 	for(i=0; i<len; i++)
 	{
-		*list[i].isEmpty = 1;
+		list[i].isEmpty = 1;
 
 	}
 	if(i == len)
@@ -90,15 +99,19 @@ int searchFree(eEmployee* list, int len)
 }
 
 
+
 int addEmployee(eEmployee* list, int len, int id, char name[],char lastName[],float salary,int sector)
 {
+ int flag = -1;
 
- return -1;
+
+ return flag;
 }
 
 int findEmployeeById(eEmployee* list, int len,int id)
 {
- return NULL;
+
+ return 0;
 }
 
 int removeEmployee(eEmployee* list, int len, int id)
@@ -131,5 +144,164 @@ int printEmployees(eEmployee* list, int len)
 	}
  return flag;
 }
+
+int pedirPalabra(char* mensaje, char* mensajeError, char* palabra, int tamMin, int tamMax)
+{
+	int flag = 0;
+	char buffer[60];
+	int valida;
+
+		printf("%s",mensaje);
+		fflush(stdin);
+		gets(buffer);
+		valida = validaPalabra(buffer,tamMin,tamMax);
+
+		while(valida == 0)
+		{
+			printf("%s",mensajeError);
+			fflush(stdin);
+			gets(buffer);
+			valida = validaPalabra(buffer,tamMin,tamMax);
+		}
+
+		flag = 1;
+		strcpy(palabra,buffer);
+
+	return flag;
+}
+int validaPalabra(char* palabra, int tamMin, int tamMax)
+{
+	int flag = 0;
+	int tam = strlen(palabra);
+
+	int i;
+
+	if(tam >= tamMin && tam <= tamMax)
+	{
+		for(i=0; i<tam; i++)
+		{
+			if(esLetra(palabra[i]))
+			{
+				flag = 1;
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+
+	return flag;
+}
+
+
+int esLetra(char letra)
+{
+	int flag = 0;
+	if((letra >= 'a' && letra <= 'z') || (letra >= 'A' && letra <= 'Z'))
+	{
+		flag = 1;
+	}
+
+	return flag;
+}
+
+int pedirNumero(char* mensaje, char* mensajeError, int* retorno)
+{
+	char buffer[100];
+	//int buffer;
+	int numero;
+	int valida;
+	int flag = 1;
+
+	printf("%s",mensaje);
+	fflush(stdin);
+	//scanf("%s",&buffer);
+	gets(buffer);
+
+	  valida = esNumero(buffer,&numero);
+	while (valida == 0)
+	{
+		printf("%s",mensajeError);
+		fflush(stdin);
+		//scanf("%d",&buffer);
+		gets(buffer);
+
+		valida = esNumero(buffer,&numero);
+		flag = 0;
+	}
+	flag = 1;
+	*retorno = numero;
+
+
+
+	return flag;
+}
+
+int esNumero(char* buffer, int* retorno)
+{
+	int flag = 0;
+	int contador = 0;
+	int tam = strlen(buffer);
+
+	int i;
+	for(i=0; i<tam; i++)
+	{
+		if(buffer[i] <='9' && buffer[i] >= '0')
+		{
+			contador ++;
+		}
+		else
+		{
+		break;
+		}
+	}
+	if(contador == tam)
+	{
+
+		*retorno = atoi(buffer);
+		flag = 1;
+	}
+
+
+	return flag;
+}
+
+int esTelefononico(char* buffer, char* retorno)
+{
+	int flag = 0;
+	int contadorGuiones = 0;
+	int tam = strlen(buffer);
+
+	int i;
+	for(i=0; i<tam; i++)
+	{
+		if(buffer[i] <= '9' && buffer[i] >= '0')
+		{
+
+		}
+		else
+		{
+			if(buffer[i] == '-')
+			{
+				contadorGuiones++;
+			}
+			else
+			{
+				break;
+			}
+		}
+
+	}
+
+	if(contadorGuiones == 1)
+	{
+		flag = 1;
+		strcpy(retorno,buffer);
+	}
+
+	return flag;
+}
+
 
 

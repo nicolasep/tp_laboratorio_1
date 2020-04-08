@@ -52,32 +52,37 @@ int multiplicar(int numero1, int numero2)
 	int respuesta = numero1*numero2;
 	return respuesta;
 }
-int dividir(int numero1, int numero2, float* respuesta)
+int dividir(float* pResultado, int numero1, int numero2)
 {
-	int flag = 0;
-	if(numero2 != 0)
-	{
-		*respuesta = (float)numero1/numero2;
-		flag = 1;
-	}
-	return flag;
-}
-int factorial(int numero, long* resultado)
-{
-	long factorial=1;
-	int flag = 0;
+	float buffer;
+	int respuesta = -1;
 
-	if(numero > 0)
+	if(numero2 != 0 && pResultado != NULL)
+	{
+		buffer = (float)numero1/numero2;
+		*pResultado = buffer;
+		respuesta = 0;
+	}
+
+
+	return respuesta;
+}
+int factorial(long* pResultado, int numero)
+{
+	long factorial = 1;
+	int respuesta = -1;
+
+	if(numero > 0 && pResultado != NULL)
 	{
 		for(int i=numero;i>0;i--)
 		{
 		factorial = factorial * i;
 		}
-		*resultado = factorial;
-		flag = 1;
+		*pResultado = factorial;
+		respuesta = 0;
 	}
 
-	return flag;
+	return respuesta;
 }
 
 

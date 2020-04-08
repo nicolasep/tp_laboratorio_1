@@ -26,10 +26,12 @@ int main(void) {
 	//VANDERAS PARA VERIFICAR RETORNOS
 	int flagOperando1 = 0;
 	int flagOperando2 = 0;
-	int flagDivision;
-	int flagFactorialOp1;
-	int flagFactorialOp2;
 	int flagOperaciones = 0;
+
+	int respuestaDivision;
+	int respuestaFactorialOp1;
+	int respuestaFactorialOp2;
+
 
 	//VARIABLES DE RESULTADOS
 	int resultadoSuma;
@@ -73,10 +75,10 @@ int main(void) {
 			{
 				resultadoSuma = sumar(operando1,operando2);
 				resultadoResta = restar(operando1,operando2);
-				flagDivision = dividir(operando1,operando2,&resultadoDivision);
+				respuestaDivision = dividir(&resultadoDivision, operando1,operando2);
 				resultadoMultiplicacion = multiplicar(operando1,operando2);
-				flagFactorialOp1 = factorial(operando1,&resultadoFactorialOp1);
-				flagFactorialOp2 = factorial(operando2,&resultadoFactorialOp2);
+				respuestaFactorialOp1 = factorial(&resultadoFactorialOp1, operando1);
+				respuestaFactorialOp2 = factorial(&resultadoFactorialOp2, operando2);
 				flagOperaciones = 1;
 				printf("OPERACIONES REALIZADAS CON EXITO!!!\n");
 			}
@@ -96,7 +98,7 @@ int main(void) {
 				printf("El resultado de A+B es: %d\n",resultadoSuma);
 				printf("El resultado de A-B es: %d\n",resultadoResta);
 
-				if(flagDivision)//VERIFICA QUE EL OPERANDO B NO SEA 0 Y EN ESE CASO MUESTRA EL ERROR
+				if(respuestaDivision == 0)//VERIFICA QUE EL OPERANDO B NO SEA 0 Y EN ESE CASO MUESTRA EL ERROR
 				{
 					printf("El resultado de A/B es: %.2f\n",resultadoDivision);
 				}
@@ -109,18 +111,18 @@ int main(void) {
 
 
 
-				if(flagFactorialOp1 && flagFactorialOp2)//VERIFICA QUE LOS OPERANDOS SEAN MAYOR QUE 0, DE LO CONTRARIO MUESTRA ERROR SEGUN EL CASO
+				if(respuestaFactorialOp1 == 0 && respuestaFactorialOp2 == 0)//VERIFICA QUE LOS OPERANDOS SEAN MAYOR QUE 0, DE LO CONTRARIO MUESTRA ERROR SEGUN EL CASO
 				{
 					printf("El factorial de A es: %li y El factorial de B es: %li\n",resultadoFactorialOp1,resultadoFactorialOp2);
 				}
 				else
 				{
-					if(flagFactorialOp1 == 0 && flagFactorialOp2)
+					if(respuestaFactorialOp1 == -1 && respuestaFactorialOp2 == 0)
 					{
 						printf("No se puede calcular el factorial del operando A por que el numero ingresado debe ser mayor a 0\n");
 						printf("El resultado del factorial del operando B es: %li\n",resultadoFactorialOp2);
 					}
-					else if(flagFactorialOp1 && flagFactorialOp2 == 0)
+					else if(respuestaFactorialOp1 == 0 && respuestaFactorialOp2 == -1)
 					{
 						printf("El resultado del factorial del operando A es: %li\n",resultadoFactorialOp1);
 						printf("No se puede calcular el factorial del operando B por que el numero ingresado debe ser mayor a 0\n");

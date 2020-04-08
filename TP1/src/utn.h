@@ -12,8 +12,8 @@ int menu(int operando1, int operando2, int flag1, int flag2);
 int sumar(int numero1, int numero2);
 int restar(int numero1, int numero2);
 int multiplicar(int numero1, int numero2);
-int dividir(int numero1, int numero2, float* resultado);
-int factorial(int numero, long* resultado);
+int dividir(float* resultado ,int numero1, int numero2);
+int factorial(long* pResultado ,int numero);
 
 
 
