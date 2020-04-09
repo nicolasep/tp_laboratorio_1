@@ -35,12 +35,7 @@ int removeEmployee(eEmployee* list, int len, int id);
 int sortEmployees(eEmployee* list, int len, int order);
 int printEmployees(eEmployee* list, int len);
 
-int pedirPalabra(char* mensaje, char* mensajeError, char* palabra, int tamMin, int tamMax);
-int validaPalabra(char* palabra, int tamMin, int tamMax);
 
-int esLetra(char letra);
-int pedirNumero(char* mensaje, char* mensajeError, int* retorno);
-int esNumero(char* buffer, int* retorno);
 
 int main(void) {
 
@@ -97,9 +92,6 @@ int searchFree(eEmployee* list, int len)
 
 	return indice;
 }
-
-
-
 int addEmployee(eEmployee* list, int len, int id, char name[],char lastName[],float salary,int sector)
 {
  int flag = -1;
@@ -107,18 +99,15 @@ int addEmployee(eEmployee* list, int len, int id, char name[],char lastName[],fl
 
  return flag;
 }
-
 int findEmployeeById(eEmployee* list, int len,int id)
 {
 
  return 0;
 }
-
 int removeEmployee(eEmployee* list, int len, int id)
 {
  return -1;
 }
-
 int sortEmployees(eEmployee* list, int len, int order)
 {
  return 0;
@@ -206,7 +195,7 @@ int esLetra(char letra)
 	return flag;
 }
 
-int pedirNumero(char* mensaje, char* mensajeError, int* retorno)
+int pedirNumero(int* retorno, char* mensaje, char* mensajeError)
 {
 	char buffer[100];
 	//int buffer;
@@ -238,7 +227,7 @@ int pedirNumero(char* mensaje, char* mensajeError, int* retorno)
 	return flag;
 }
 
-int esNumero(char* buffer, int* retorno)
+int esNumero(char* numero, int* retorno)
 {
 	int flag = 0;
 	int contador = 0;
@@ -267,7 +256,7 @@ int esNumero(char* buffer, int* retorno)
 	return flag;
 }
 
-int esTelefononico(char* buffer, char* retorno)
+int esTelefononico(char* numero, char* retorno)
 {
 	int flag = 0;
 	int contadorGuiones = 0;

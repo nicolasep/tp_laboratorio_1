@@ -44,7 +44,7 @@ int sumar(int numero1, int numero2)
 }
 int restar(int numero1, int numero2)
 {
-	int respuesta = numero1-numero2;
+	int respuesta = numero1-(numero2);
 	return respuesta;
 }
 int multiplicar(int numero1, int numero2)
