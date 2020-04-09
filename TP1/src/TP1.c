@@ -49,22 +49,28 @@ int main(void) {
 		{
 		case 1:
 
-			printf("Ingrese operando A: ");
-			scanf("%d",&operando1);
-			//SI EL USUARIO ESTA VOLVIENDO A INGRASAR UN NUMERO DE ESTA FORMA EXIGE EL CALCULO NUEVO DE OPERACIONES
-
-			flagOperando1 = 1;
+			if(get_Numero(&operando1,"Ingrese operando A: ","Error, debe ser un numero\n") == 0)
+			{
+				flagOperando1 = 1;//SI EL USUARIO ESTA VOLVIENDO A INGRASAR UN NUMERO DE ESTA FORMA EXIGE EL CALCULO NUEVO DE OPERACIONES
+			}
+			else
+			{
+				flagOperando1 = 0;
+			}
 			flagOperaciones = 0;
 
 			break;
 
 		case 2:
 
-			printf("Ingrese operando B: ");
-			scanf("%d",&operando2);
-			//SI EL USUARIO ESTA VOLVIENDO A INGRASAR UN NUMERO DE ESTA FORMA EXIGE EL CALCULO NUEVO DE OPERACIONES
-
-			flagOperando2 = 1;
+			if(get_Numero(&operando2,"Ingrese operando B: ","Error, debe ser un numero\n") == 0)
+			{
+				flagOperando2 = 1;//SI EL USUARIO ESTA VOLVIENDO A INGRASAR UN NUMERO DE ESTA FORMA EXIGE EL CALCULO NUEVO DE OPERACIONES
+			}
+			else
+			{
+				flagOperando2 = 0;
+			}
 			flagOperaciones = 0;
 
 			break;

@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int menu(int operando1, int operando2,int flag1, int flag2)
 {
@@ -26,15 +27,37 @@ int menu(int operando1, int operando2,int flag1, int flag2)
 	}
 	else
 	{
-		printf("2 - Ingresar 1er operando B = %d\n",operando2);
+		printf("2 - Ingresar 2do operando B = %d\n",operando2);
 	}
 
 	printf("3 - Calcular todas las operaciones\n");
 	printf("4 - Informar resultados\n");
 	printf("5 - SALIR\n");
+	fflush(stdin);
 	scanf("%d",&opcion);
 
 	return opcion;
+}
+int get_Numero(int* pResultado, char* mensaje, char* mensajeError)
+{
+	int buffer;
+	int retorno = -1;
+
+	if(pResultado != NULL && mensaje != NULL && mensajeError != NULL)
+	{
+		printf("%s",mensaje);
+		if(scanf("%d",&buffer))
+		{
+			*pResultado = buffer;
+			retorno = 0;
+		}
+		else
+		{
+			printf("%s",mensajeError);
+		}
+	}
+	return retorno;
+
 }
 
 int sumar(int numero1, int numero2)

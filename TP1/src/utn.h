@@ -15,7 +15,7 @@ int multiplicar(int numero1, int numero2);
 int dividir(float* resultado ,int numero1, int numero2);
 int factorial(long* pResultado ,int numero);
 
-
+int get_Numero(int* pResultado, char* mensaje, char* mensajeError);
 
 
 
