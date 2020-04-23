@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "utn.h"
 
 
 typedef struct
@@ -22,18 +23,21 @@ typedef struct
 	int sector;
 	int isEmpty;
 
-}eEmployee;
+}Employee;
 
 #define TAM 1000
 
-int initEmployees(eEmployee* list, int len);
-int searchFree(eEmployee* list, int len);
+int swapEmployee(Employee* pNumeroA, Employee* pNumeroB);
 
-int addEmployee(eEmployee* list, int len, int id, char name[],char lastName[],float salary,int sector);
-int findEmployeeById(eEmployee* list, int len,int id);
-int removeEmployee(eEmployee* list, int len, int id);
-int sortEmployees(eEmployee* list, int len, int order);
-int printEmployees(eEmployee* list, int len);
+int initEmployees(Employee* list, int len);
+int searchFree(Employee* list, int len);
+Employee newEmployee(Employee* list, int len);
+
+int addEmployee(Employee* list, int len, int id, char* name,char* lastName,float salary,int sector);
+int findEmployeeById(Employee* list, int len,int id);
+int removeEmployee(Employee* list, int len, int id);
+int sortEmployees(Employee* list, int len, int order);
+int printEmployees(Employee* list, int len);
 
 
 
@@ -61,7 +65,7 @@ int main(void) {
 
 	return EXIT_SUCCESS;
 }
-int initEmployees(eEmployee* list, int len)
+int initEmployees(Employee* list, int len)
 {
 	int flag = 0;
 	int i;
@@ -78,13 +82,13 @@ int initEmployees(eEmployee* list, int len)
 
  return flag;
 }
-int searchFree(eEmployee* list, int len)
+int searchFree(Employee* list, int len)
 {
 	int indice = -1;
 	int i;
 	for(i=0; i<len; i++)
 	{
-		if(list[i].isEmpty)
+		if(list[i].isEmpty == 1)
 		{
 			indice = i;
 		}
@@ -92,204 +96,196 @@ int searchFree(eEmployee* list, int len)
 
 	return indice;
 }
-int addEmployee(eEmployee* list, int len, int id, char name[],char lastName[],float salary,int sector)
+Employee newEmployee(Employee* list, int len)
+{
+	Employee aux;
+	if(list != NULL && len > 0)
+	{
+		aux.id = list->id;
+		strcpy(aux.name,list->name);
+		strcpy(aux.lastName,list->lastName);
+		aux.salary = list->salary;
+		aux.sector = list->sector;
+		aux.isEmpty = 0;
+	}
+	return aux;
+}
+int newEmployeeParam(Employee* list, int len, int id)
+{
+	int retorno = -1;
+	int indice = searchFree(list,len);
+	int arraySalioBien[4] = {-1,-1,-1,-1};
+
+	if(list != NULL && len > 0 && id > 0)
+	{
+		arraySalioBien[0] = utn_getCadena(list[indice].name,"Ingrese Nombre: ","Error, ingrese solo letras\n",3,51,3);
+		arraySalioBien[1] = utn_getCadena(list[indice].lastName,"Ingrese Apellido: ","Error, ingrese solo letras\n",3,51,3);
+		arraySalioBien[2] = utn_getNumeroFlotante(&list[indice].salary,"Ingrese Salario: ","Error, ingrese solo numeros\n",1.0,10000.0,3);
+		arraySalioBien[3] = utn_getNumero(&list[indice].sector,"Ingrese sector: ","Error, ingrese solo numeros\n",1,1000,3);
+
+		if(arraySalioBien[0]==0 && arraySalioBien[1]==0 && arraySalioBien[2]==0 && arraySalioBien[3]==0)
+		{
+
+		}
+
+	}
+
+	return retorno;
+}
+int addEmployee(Employee* list, int len, int id, char* name,char* lastName,float salary,int sector)
 {
  int flag = -1;
 
+ if(list != NULL && len > 0 && id > 0 && name != NULL && lastName != NULL)
+ {
+
+ }
+
 
  return flag;
 }
-int findEmployeeById(eEmployee* list, int len,int id)
+int findEmployeeById(Employee* list, int len,int id)
 {
 
  return 0;
 }
-int removeEmployee(eEmployee* list, int len, int id)
+int removeEmployee(Employee* list, int len, int id)
 {
  return -1;
 }
-int sortEmployees(eEmployee* list, int len, int order)
+/*
+int sortEmployees(Employee* list, int len, int order)
 {
- return 0;
+	int retorno = -1;
+	int i;
+	int flagSwap;
+	int contador = 0;
+	int limiteVariable;
+
+	if(list != NULL && len > 0)
+	{
+		limiteVariable = len -1;
+		retorno = 0;
+		do
+		{
+			flagSwap = 0;
+			for(i=0; i<limiteVariable;i++)
+			{
+				contador++;
+				if(list[i] < list[i+1])
+				{
+					intSwap(list+i,list+i+1);
+
+					flagSwap = 1;
+				}
+			}
+
+			limiteVariable--;
+		}while(flagSwap);
+		retorno = contador;
+	}
+
+	return retorno;
+}*/
+int swapEmployee(Employee* pNumeroA, Employee* pNumeroB)
+{
+	int retorno = -1;
+	Employee buffer;
+	if(pNumeroA != NULL && pNumeroB != NULL)
+	{
+		buffer = *pNumeroA;
+	    *pNumeroA = *pNumeroB;
+	    *pNumeroB = buffer;
+	    retorno = 0;
+	}
+	return retorno;
 }
-int printEmployees(eEmployee* list, int len)
+int sortEmployees(Employee* list, int len, int order)
 {
-	int flag = 0;
+	int retorno = -1;
+	int i;
+	int flagSwap;
+	int contador = 0;
+	int limiteVariable;
+
+	if(list != NULL && len > 0 && (order == 1 || order == 2))
+	{
+		limiteVariable = len -1;
+		retorno = 0;
+		do
+		{
+
+			for(i=0; i<limiteVariable;i++)
+			{
+				contador++;
+				flagSwap = 0;
+				if(order == 1)
+				{
+					if(strcmp(list[i].lastName,list[i+1].lastName) > 0)
+					{
+						swapEmployee(list+i,list+i+1);
+						flagSwap = 1;
+					}
+					else if(strcmp(list[i].lastName,list[i+1].lastName) == 0)
+					{
+						if(list[i].sector > list[i+i].sector)
+						{
+							swapEmployee(list+i,list+i+1);
+							flagSwap = 1;
+						}
+					}
+				}
+				else
+				{
+					if(strcmp(list[i].lastName,list[i+1].lastName) < 0)
+					{
+						swapEmployee(list+i,list+i+1);
+						flagSwap = 1;
+					}
+					else if(strcmp(list[i].lastName,list[i+1].lastName) == 0)
+					{
+						if(list[i].sector < list[i+i].sector)
+						{
+							swapEmployee(list+i,list+i+1);
+							flagSwap = 1;
+						}
+					}
+				}
+			}
+
+			limiteVariable--;
+		}while(flagSwap);
+		retorno = contador;
+	}
+
+	return retorno;
+}
+
+int printEmployees(Employee* list, int len)
+{
+	int retorno = -1;
 	int cont = 0;
 	int i;
 
-	for(i=0; i<len; i++)
+	if(list != NULL && len > 0)
 	{
-		if(list[i].isEmpty == 0)
+		for(i=0; i<len; i++)
 		{
-			if(cont == 0)
+			if(list[i].isEmpty == 0)
 			{
-				printf("ID NOMBRE APELLIDO SALARIO SECTOR\n");
-			}
-			printf("%d %s %s %.2f %d",list[i].id,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
+				if(cont == 0)
+				{
+					printf("ID NOMBRE APELLIDO SALARIO SECTOR\n");
+					cont = 1;
+				}
+				printf("%d %s %s %.2f %d",list[i].id,list[i].name,list[i].lastName,list[i].salary,list[i].sector);
 
-			flag = 1;
-		}
-	}
- return flag;
-}
-
-int pedirPalabra(char* mensaje, char* mensajeError, char* palabra, int tamMin, int tamMax)
-{
-	int flag = 0;
-	char buffer[60];
-	int valida;
-
-		printf("%s",mensaje);
-		fflush(stdin);
-		gets(buffer);
-		valida = validaPalabra(buffer,tamMin,tamMax);
-
-		while(valida == 0)
-		{
-			printf("%s",mensajeError);
-			fflush(stdin);
-			gets(buffer);
-			valida = validaPalabra(buffer,tamMin,tamMax);
-		}
-
-		flag = 1;
-		strcpy(palabra,buffer);
-
-	return flag;
-}
-int validaPalabra(char* palabra, int tamMin, int tamMax)
-{
-	int flag = 0;
-	int tam = strlen(palabra);
-
-	int i;
-
-	if(tam >= tamMin && tam <= tamMax)
-	{
-		for(i=0; i<tam; i++)
-		{
-			if(esLetra(palabra[i]))
-			{
-				flag = 1;
-			}
-			else
-			{
-				break;
+				retorno = 0;
 			}
 		}
 	}
 
-	return flag;
-}
-
-
-int esLetra(char letra)
-{
-	int flag = 0;
-	if((letra >= 'a' && letra <= 'z') || (letra >= 'A' && letra <= 'Z'))
-	{
-		flag = 1;
-	}
-
-	return flag;
-}
-
-int pedirNumero(int* retorno, char* mensaje, char* mensajeError)
-{
-	char buffer[100];
-	//int buffer;
-	int numero;
-	int valida;
-	int flag = 1;
-
-	printf("%s",mensaje);
-	fflush(stdin);
-	//scanf("%s",&buffer);
-	gets(buffer);
-
-	  valida = esNumero(buffer,&numero);
-	while (valida == 0)
-	{
-		printf("%s",mensajeError);
-		fflush(stdin);
-		//scanf("%d",&buffer);
-		gets(buffer);
-
-		valida = esNumero(buffer,&numero);
-		flag = 0;
-	}
-	flag = 1;
-	*retorno = numero;
-
-
-
-	return flag;
-}
-
-int esNumero(char* numero, int* retorno)
-{
-	int flag = 0;
-	int contador = 0;
-	int tam = strlen(buffer);
-
-	int i;
-	for(i=0; i<tam; i++)
-	{
-		if(buffer[i] <='9' && buffer[i] >= '0')
-		{
-			contador ++;
-		}
-		else
-		{
-		break;
-		}
-	}
-	if(contador == tam)
-	{
-
-		*retorno = atoi(buffer);
-		flag = 1;
-	}
-
-
-	return flag;
-}
-
-int esTelefononico(char* numero, char* retorno)
-{
-	int flag = 0;
-	int contadorGuiones = 0;
-	int tam = strlen(buffer);
-
-	int i;
-	for(i=0; i<tam; i++)
-	{
-		if(buffer[i] <= '9' && buffer[i] >= '0')
-		{
-
-		}
-		else
-		{
-			if(buffer[i] == '-')
-			{
-				contadorGuiones++;
-			}
-			else
-			{
-				break;
-			}
-		}
-
-	}
-
-	if(contadorGuiones == 1)
-	{
-		flag = 1;
-		strcpy(retorno,buffer);
-	}
-
-	return flag;
+ return retorno;
 }
 
 
