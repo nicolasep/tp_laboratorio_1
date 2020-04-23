@@ -27,6 +27,11 @@ static int getTelefono(char* pResultado);
 static int esEmail(char* cadena);
 static int getEmail(char* pResultado);
 */
+static int esChar(char letra);
+static int getChar(char* pResultado);
+
+
+
 int printArray(int* pArray, int len)
 {
 	int i;
@@ -107,6 +112,53 @@ static int myGets(char* cadena, int longitud)
 			}
 		}
 	}
+
+	return retorno;
+}
+static int esChar(char letra)
+{
+	int retorno = 0;
+	if(letra <'a' || letra >'z' || letra <'A' || letra >'Z')
+	{
+		retorno = -1;
+	}
+
+	return retorno;
+}
+static int getChar(char* pResultado)
+{
+	int retorno = -1;
+	char buffer;
+
+	if(pResultado != NULL)
+	{
+		if(myGets(&buffer,sizeof(buffer))==0 && esChar(buffer) == 0)
+		{
+			*pResultado = buffer;
+			retorno = 0;
+		}
+	}
+
+	return retorno;
+}
+int utn_getChar(char* pResultado, char* mensaje, char* mensajeError, char minimo, char maximo, int reintentos)
+{
+	int retorno = -1;
+	char bufferChar;
+	do
+	{
+		printf("%s",mensaje);
+		if(getChar(&bufferChar) == 0 &&
+		   bufferChar >= minimo &&
+		   bufferChar <= maximo)
+		{
+			retorno = 0;
+			*pResultado = bufferChar;
+			break;
+		}
+		printf("%s",mensajeError);
+		reintentos--;
+	}while(reintentos>=0);
 
 	return retorno;
 }

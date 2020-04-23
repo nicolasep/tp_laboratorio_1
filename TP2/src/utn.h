@@ -25,6 +25,8 @@ int utn_getNumero(int* pResultado, char* mensaje, char* mensajeError, int minimo
 int myGets(char* cadena, int longitud);
 int getInt(int* pResultado);
 int esNumerica(char* cadena,int limite);*/
+int utn_getChar(char* pResultado, char* mensaje, char* mensajeError, char minimo, char maximo, int reintentos);
+
 int utn_getNumero(int* pResultado, char* mensaje, char* mensajeError, int minimo, int maximo, int reintentos);
 
 //

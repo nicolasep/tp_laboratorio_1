@@ -31,15 +31,20 @@ int swapEmployee(Employee* pNumeroA, Employee* pNumeroB);
 
 int initEmployees(Employee* list, int len);
 int searchFree(Employee* list, int len);
-Employee newEmployee(Employee* list, int len, int id);
+Employee newEmployee(Employee* list, int len, int id, char* name,char* lastName,float salary,int sector);
 
 int addEmployee(Employee* list, int len, int id, char* name,char* lastName,float salary,int sector);
 int findEmployeeById(Employee* list, int len,int id);
 int removeEmployee(Employee* list, int len, int id);
 int sortEmployees(Employee* list, int len, int order);
 int printEmployees(Employee* list, int len);
+int modifiEmployee(Employee* list, int len);
 
+int printEmployee(Employee* list, int len, int indice);
+int printEmployeById(Employee* list, int len, int id);
+int newEmployeeParam(Employee* list, int len, int id);
 
+int findIndiceEmployeeById(Employee* list, int len,int id);
 
 int main(void) {
 
@@ -57,11 +62,6 @@ int main(void) {
 	//Tener en cuenta que no se podrá ingresar a los casos 2, 3 y 4; sin antes haber realizado la carga de algun empleado.
 
 	//eEmployee listaEmpleados[TAM];
-
-
-
-
-
 
 	return EXIT_SUCCESS;
 }
@@ -96,16 +96,16 @@ int searchFree(Employee* list, int len)
 
 	return indice;
 }
-Employee newEmployee(Employee* list, int len, int id)
+Employee newEmployee(Employee* list, int len, int id, char* name,char* lastName,float salary,int sector)
 {
 	Employee aux;
 	if(list != NULL && len > 0)
 	{
-		aux.id = list->id;
-		strcpy(aux.name,list->name);
-		strcpy(aux.lastName,list->lastName);
-		aux.salary = list->salary;
-		aux.sector = list->sector;
+		aux.id = id;
+		strcpy(aux.name,name);
+		strcpy(aux.lastName,lastName);
+		aux.salary =salary;
+		aux.sector =sector;
 		aux.isEmpty = 0;
 	}
 	return aux;
@@ -141,8 +141,8 @@ int newEmployeeParam(Employee* list, int len, int id)
 int addEmployee(Employee* list, int len, int id, char* name,char* lastName,float salary,int sector)
 {
  int retorno = -1;
- Employee aux = newEmployee(list,len,id);
  int indice = searchFree(list,len);
+ Employee aux = newEmployee(list,len,id,name,lastName,salary,sector);
 
  if(list != NULL && len > 0 && id > 0 && name != NULL && lastName != NULL && indice != -1)
  {
@@ -150,17 +150,146 @@ int addEmployee(Employee* list, int len, int id, char* name,char* lastName,float
 	 retorno = 0;
  }
 
-
  return retorno;
 }
 int findEmployeeById(Employee* list, int len,int id)
 {
+	int retorno = -1;
+	int i;
 
- return 0;
+	if(list != NULL && len > 0 && id > 0)
+	{
+		for(i=0 ; i<len; i++)
+		{
+			if(list[i].id == id)
+			{
+				retorno = 0;
+			}
+		}
+
+	}
+
+ return retorno;
+}
+
+int findIndiceEmployeeById(Employee* list, int len,int id)
+{
+	int retorno = -1;
+	int i;
+
+	if(list != NULL && len > 0 && id > 0)
+	{
+		for(i=0 ; i<len; i++)
+		{
+			if(list[i].id == id)
+			{
+				retorno = i;
+			}
+		}
+
+	}
+
+ return retorno;
+}
+int printEmployee(Employee* list, int len, int indice)
+{
+	int retorno = -1;
+	if(list != NULL && len>0)
+	{
+		printf("%d\t%s\t%s\t%.2f\t%d\n",list[indice].id,list[indice].name,list[indice].lastName,list[indice].salary,list[indice].sector);
+	}
+
+	return retorno;
+}
+int printEmployees(Employee* list, int len)
+{
+	int retorno = -1;
+	int mostroMensaje = 0;
+	int i;
+
+	if(list != NULL && len > 0)
+	{
+		for(i=0; i<len; i++)
+		{
+			if(list[i].isEmpty == 0)
+			{
+				if(mostroMensaje==0)
+				{
+					printf("ID\tNOMBRE\tAPELLIDO\tSALARIO\tSECTOR\n");
+
+				 mostroMensaje = 1;
+				}
+				retorno = printEmployee(list,len,i);
+			}
+
+		}
+	}
+	return retorno;
+}
+int printEmployeById(Employee* list, int len, int id)
+{
+	int retorno = -1;
+	int mostroMensaje = 0;
+	int i;
+	if(list != NULL && len > 0 && id > 0)
+	{
+		for(i=0; i<len; i++)
+		{
+			if(list[i].isEmpty==0 && list[i].id==id)
+			{
+				if(mostroMensaje==0)
+				{
+					printf("ID\tNOMBRE\tAPELLIDO\tSALARIO\tSECTOR\n");
+
+				    mostroMensaje = 1;
+				}
+				printEmployee(list,len,i);
+			}
+		}
+		retorno = 0;
+	}
+	return retorno;
+}
+int modifiEmployee(Employee* list, int len)
+{
+	int retorno = -1;
+
+
+
+	return retorno;
 }
 int removeEmployee(Employee* list, int len, int id)
 {
- return -1;
+	int retorno = -1;
+	int opcionEliminar;
+	int indice;
+	char confirmacion;
+
+
+	if(list != NULL && len > 0 && id > 0)
+	{
+		printf("----REMOVER EMPLEADO----\n");
+		printEmployees(list, len);
+		if(utn_getNumero(&opcionEliminar,"Ingrese el ID del empleado a eliminar","Error, no es un valor aceptado\n",1,10000,3)==0 &&
+		   findEmployeeById(list,len,id)==0)
+		{
+			indice = findIndiceEmployeeById(list,len,opcionEliminar);
+			printf("El empleado seleccionado es:\n");
+			printEmployee(list,len,indice);
+			printf("Esta seguro que desea seguir, Igrese S eliminar: ");
+			fflush(stdin);
+			fgets(&confirmacion,1,stdin);
+			if(confirmacion =='s' || confirmacion =='S')
+			{
+				list[indice].isEmpty = -1;
+				retorno = 0;
+			}
+
+		}
+	}
+
+
+ return retorno;
 }
 /*
 int sortEmployees(Employee* list, int len, int order)
@@ -269,7 +398,7 @@ int sortEmployees(Employee* list, int len, int order)
 
 	return retorno;
 }
-
+/*
 int printEmployees(Employee* list, int len)
 {
 	int retorno = -1;
@@ -295,7 +424,7 @@ int printEmployees(Employee* list, int len)
 	}
 
  return retorno;
-}
+}*/
 
 
 
