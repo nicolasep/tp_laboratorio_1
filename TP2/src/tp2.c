@@ -31,7 +31,7 @@ int swapEmployee(Employee* pNumeroA, Employee* pNumeroB);
 
 int initEmployees(Employee* list, int len);
 int searchFree(Employee* list, int len);
-Employee newEmployee(Employee* list, int len);
+Employee newEmployee(Employee* list, int len, int id);
 
 int addEmployee(Employee* list, int len, int id, char* name,char* lastName,float salary,int sector);
 int findEmployeeById(Employee* list, int len,int id);
@@ -96,7 +96,7 @@ int searchFree(Employee* list, int len)
 
 	return indice;
 }
-Employee newEmployee(Employee* list, int len)
+Employee newEmployee(Employee* list, int len, int id)
 {
 	Employee aux;
 	if(list != NULL && len > 0)
@@ -113,19 +113,25 @@ Employee newEmployee(Employee* list, int len)
 int newEmployeeParam(Employee* list, int len, int id)
 {
 	int retorno = -1;
-	int indice = searchFree(list,len);
+
 	int arraySalioBien[4] = {-1,-1,-1,-1};
+
+	char auxName[51];
+	char auxLast[51];
+	float auxSalary;
+	int auxSector;
 
 	if(list != NULL && len > 0 && id > 0)
 	{
-		arraySalioBien[0] = utn_getCadena(list[indice].name,"Ingrese Nombre: ","Error, ingrese solo letras\n",3,51,3);
-		arraySalioBien[1] = utn_getCadena(list[indice].lastName,"Ingrese Apellido: ","Error, ingrese solo letras\n",3,51,3);
-		arraySalioBien[2] = utn_getNumeroFlotante(&list[indice].salary,"Ingrese Salario: ","Error, ingrese solo numeros\n",1.0,10000.0,3);
-		arraySalioBien[3] = utn_getNumero(&list[indice].sector,"Ingrese sector: ","Error, ingrese solo numeros\n",1,1000,3);
+
+		arraySalioBien[0] = utn_getCadena(auxName,"Ingrese Nombre: ","Error, ingrese solo letras\n",3,51,3);
+		arraySalioBien[1] = utn_getCadena(auxLast,"Ingrese Apellido: ","Error, ingrese solo letras\n",3,51,3);
+		arraySalioBien[2] = utn_getNumeroFlotante(&auxSalary,"Ingrese Salario: ","Error, ingrese solo numeros\n",1.0,10000.0,3);
+		arraySalioBien[3] = utn_getNumero(&auxSector,"Ingrese sector: ","Error, ingrese solo numeros\n",1,1000,3);
 
 		if(arraySalioBien[0]==0 && arraySalioBien[1]==0 && arraySalioBien[2]==0 && arraySalioBien[3]==0)
 		{
-
+			addEmployee(list,len,id,auxName,auxLast,auxSalary,auxSector);
 		}
 
 	}
@@ -134,15 +140,18 @@ int newEmployeeParam(Employee* list, int len, int id)
 }
 int addEmployee(Employee* list, int len, int id, char* name,char* lastName,float salary,int sector)
 {
- int flag = -1;
+ int retorno = -1;
+ Employee aux = newEmployee(list,len,id);
+ int indice = searchFree(list,len);
 
- if(list != NULL && len > 0 && id > 0 && name != NULL && lastName != NULL)
+ if(list != NULL && len > 0 && id > 0 && name != NULL && lastName != NULL && indice != -1)
  {
-
+	 list[indice] = aux;
+	 retorno = 0;
  }
 
 
- return flag;
+ return retorno;
 }
 int findEmployeeById(Employee* list, int len,int id)
 {
