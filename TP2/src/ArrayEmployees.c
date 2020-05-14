@@ -1,15 +1,18 @@
 /*
- * Employee.c
+ * ArrayEmployees.c
  *
- *  Created on: 7 may. 2020
- *      Author: Nico
+ *  Created on: 11 may. 2020
+ *      Author: NICO
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "utn.h"
-#include "Employee.h"
+#include "ArrayEmployees.h"
+
+#define NOMBRE_LEN 51
+#define APELLIDO_LEN 51
 
 void harckodearEmpleados(Employee* list,int len,int* lastId)
 {
@@ -132,16 +135,22 @@ int getEmployee(Employee* list, int len, int* id)
 
 	if(list != NULL && len > 0 && id > 0)
 	{
+		printf("\n----ALTA EMPLEADO----\n");
 
-		if(!utn_getCadena(auxEmployee.name,"Ingrese Nombre: ","Error, ingrese solo letras\n",3,51,3)
-		&& !utn_getCadena(auxEmployee.lastName,"Ingrese Apellido: ","Error, ingrese solo letras\n",3,51,3)
-		&& !utn_getNumeroFlotante(&auxEmployee.salary,"Ingrese Salario: ","Error, ingrese solo numeros\n",1.0,10000000.0,3)
-		&& !utn_getNumero(&auxEmployee.sector,"Ingrese sector: ","Error, ingrese solo numeros\n",1,1000,3))
+		if(!utn_getNombre(auxEmployee.name,NOMBRE_LEN,"INGRESE NOMBRE: ","ERROR, SOLO SE ADMITEN LETRAS\n",3)
+		&& !utn_getNombre(auxEmployee.lastName,APELLIDO_LEN,"INGRESE APELLIDO: ","ERROR, SOLO SE ADMITEN LETRAS\n",3)
+		&& !utn_getNumeroFlotante(&auxEmployee.salary,"INGRESE SALARIO: ","ERROR, DEBE SER NUMERICO\n",1.0,10000000.0,3)
+		&& !utn_getNumero(&auxEmployee.sector,"INGRESE SECTOR: ","ERROR, DEBE SER NUMERICO\n",1,1000,3))
 		{
 			if(!addEmployee(list,len,*id,auxEmployee.name,auxEmployee.lastName,auxEmployee.salary,auxEmployee.sector))
 			{
 				retorno = 0;
 				*id+=1;
+				printf("\n----EMPLEADO DADO DE ALTA CON EXITO----\n");
+			}
+			else
+			{
+				printf("NO HAY MAS LUGAR EN LA LISTA\n");
 			}
 		}
 
@@ -207,15 +216,20 @@ int findEmployeeById(Employee* list, int len,int id)
 
  return retorno;
 }
-
-int printEmployee(Employee* list, int len, int indice)
+/*
+ * \brief imprime por pantalla un empleado
+ * \param puntero al elemento
+ * \return devuelve 0 si lo pudo imprimir y -1 si no
+ * */
+int printEmployee(Employee* pEmployee)
 {
 	int retorno = -1;
-	if(list != NULL && len>0)
+	if(pEmployee != NULL)
 	{
-		printf("%d%13s%13s   %.2f\t %d\n",list[indice].id,list[indice].name,list[indice].lastName,list[indice].salary,list[indice].sector);
+		printf("%d%13s%13s   %.2f\t %d\n",pEmployee->id,pEmployee->name,pEmployee->lastName,pEmployee->salary,pEmployee->sector);
+		retorno = 0;
 	}
-	retorno = 0;
+
 
 	return retorno;
 }
@@ -243,10 +257,9 @@ int printEmployees(Employee* list, int len)
 
 				 mostroMensaje = 1;
 				}
-				printEmployee(list,len,i);
+				printEmployee(&list[i]);
+				retorno = 0;
 			}
-			retorno = 0;
-
 		}
 	}
 	return retorno;
@@ -275,12 +288,11 @@ int printEmployeById(Employee* list, int len, int id)
 
 				    mostroMensaje = 1;
 				}
-				printEmployee(list,len,i);
+				printEmployee(&list[i]);
 				retorno = 0;
 				break;
 			}
 		}
-
 	}
 	return retorno;
 }
@@ -304,42 +316,50 @@ int modifiEmployee(Employee* list, int len)
 
 	if(list != NULL && len > 0)
 	{
-		printf("----MODIFICAR EMPLEADO----\n");
+		printf("\n----MODIFICAR EMPLEADO----\n");
 		printEmployees(list, len);
-		if(utn_getNumero(&idEmpleado,"Ingrese el ID del empleado a modificar","Error, no es un valor aceptado\n",1,10000,3)==0)
+		if(utn_getNumero(&idEmpleado,"INGRESE EL ID DEL EMPLEADO A MODIFICAR: ","ERROR, DEBE SER UN NUMERO\n",1,10000,3)==0)
 		{
 			indice = findEmployeeById(list,len,idEmpleado);
 			if(indice >=0)
 			{
-				printf("El empleado seleccionado es:\n");
-				printEmployee(list,len,indice);
+				printf("\nEL EMPLEADO SELECCIONADO ES:\n");
+				printEmployee(&list[indice]);
 
-				if(!utn_getNumero(&opcionModificar,"Indique el campo a modificar\n1- Nombre\n2- Apellido\n3- Salario\n4- Sector\n","Error, No se encuentra entre las opciones\n",1,4,3))
+				if(!utn_getNumero(&opcionModificar,"INDIQUE EL CAMPO A MODIFICAR\n1- NOMBRE\n2- APELLIDO\n3- SALARIO\n4- SECTOR\n","Error, No se encuentra entre las opciones\n",1,4,3))
 				{
 					switch(opcionModificar)
 					{
 					case 1:
-						if(!utn_getCadena(auxString,"Ingrese Nuevo nombre: ","Error, deben ser letras!!!\n",3,51,3))
+						if(!utn_getNombre(auxString,NOMBRE_LEN,"INGRESE NUEVO NOMBRE: ","ERROR, SOLO SE ADMITEN LETRAS!!!\n",2)&&
+						   !utn_confirmacionAccionChar("SEGURO DESEA CAMBIAR EL NOMBRE? ELIJA S/N"))
 						{
 							strcpy(list[indice].name,auxString);
+							printf("\nNOMBRE MODIFICADO CON EXITO\n");
 						}
 						break;
 					case 2:
-						if(!utn_getCadena(auxString,"Ingrese Nuevo apellido: ","Error, deben ser letras!!!\n",3,51,3))
+						if(!utn_getApellido(auxString,APELLIDO_LEN,"INGRESE NUEVO APELLIDO: ","ERROR, SOLO SE ADMITEN LETRAS!!!\n",2)&&
+						   !utn_confirmacionAccionChar("SEGURO DESEA CAMBIAR EL APELLIDO? ELIJA S/N"))
 						{
 							strcpy(list[indice].lastName,auxString);
+							printf("\nAPELLIDO MODIFICADO CON EXITO\n");
 						}
 						break;
 					case 3:
-						if(!utn_getNumeroFlotante(&auxFloat,"Ingrese Nuevo salario: ","Error, deben ser numeros!!!\n",0,1000000,3))
+						if(!utn_getNumeroFlotante(&auxFloat,"INGRESE NUEVO SALARIO: ","ERROR, DEBE SER NUMERICO!!!\n",0,1000000,2)&&
+						   !utn_confirmacionAccionChar("SEGURO DESEA CAMBIAR EL SALARIO? ELIJA S/N"))
 						{
 							list[indice].salary = auxFloat;
+							printf("\nSALARIO MODIFICADO CON EXITO\n");
 						}
 						break;
 					case 4:
-						if(!utn_getNumero(&auxInt,"Ingrese Nuevo sector: ","Error, deben ser numeros!!!\n",1,10000,3))
+						if(!utn_getNumero(&auxInt,"INGRESE NUEVO SECTOR: ","ERROR, DEBE SER NUMERICO!!!\n",1,10000,2)&&
+						   !utn_confirmacionAccionChar("SEGURO DESEA CAMBIAR EL SECTOR? ELIJA S/N"))
 						{
 							list[indice].sector = auxInt;
+							printf("\nSECTOR MODIFICADO CON EXITO\n");
 						}
 						break;
 					}
@@ -348,11 +368,9 @@ int modifiEmployee(Employee* list, int len)
 				}
 				else
 				{
-					printf("Operacion cancelada\n");
+					printf("OPERACION CANCELADA\n");
 				}
 			}
-
-
 		}
 	}
 
@@ -368,31 +386,27 @@ int getIdRemove(Employee* list, int len)
 {
 	int retorno = -1;
 	int idEliminar;
-	char confirmacion;
-
 
 	if(list != NULL && len > 0)
 	{
 		printf("----REMOVER EMPLEADO----\n");
 		printEmployees(list, len);
-		if(utn_getNumero(&idEliminar,"Ingrese el ID del empleado a eliminar","Error, no es un valor aceptado\n",1,1000,3)==0 &&
+		if(utn_getNumero(&idEliminar,"INGRESE EL ID DEL EMPLEADO A ELIMINAR: ","ERROR, SOLO SE ADMITEN NUMEROS\n",1,1000,3)==0 &&
 		   findEmployeeById(list,len,idEliminar)>=0)
 		{
 
-			printf("El empleado seleccionado es:\n");
+			printf("\nEL EMPLEADO SELECCIONADO ES:\n");
 			printEmployeById(list,len,idEliminar);
-			fflush(stdin);
-			if(!utn_getChar(&confirmacion,"Esta seguro que desea seguir, Igrese S para eliminar: ","Operacion cancelada\n",'S','s',0)
-			&&(confirmacion =='s' || confirmacion =='S'))
+			if(!utn_confirmacionAccionChar("ESTA SEGURO QUE DESEA ELIMINAR ESTE EMPLEADO? INGRESE 'S' PARA ELIMINAR: ")&&
+			   !removeEmployee(list,len,idEliminar))
 			{
-				if(!removeEmployee(list,len,idEliminar))
-				{
-					retorno = 0;
-					printf("EMPLEADO ELIMINADO CON EXITO\n");
-				}
-
+				retorno = 0;
+				printf("EMPLEADO ELIMINADO CON EXITO\n");
 			}
-
+			else
+			{
+				printf("OPERACION CANCELADA\n");
+			}
 		}
 		else
 		{
@@ -418,10 +432,8 @@ int removeEmployee(Employee* list, int len, int id)
 	if(list != NULL && len > 0 && id > 0)
 	{
 		indice = findEmployeeById(list,len,id);
-
-				list[indice].isEmpty = -1;
-				retorno = 0;
-
+		list[indice].isEmpty = -1;
+		retorno = 0;
 	}
 
  return retorno;
@@ -449,7 +461,7 @@ int swapEmployee(Employee* pNumeroA, Employee* pNumeroB)
  * \brief ordena el array de empleados siguiendo el orden seleccionado
  * \param array de empleados
  * \param longitud del array empleados
- * \param tipo de orden 0 ascendente y 1 descendente
+ * \param tipo de orden 1 ascendente y 0 descendente
  * \return devuelve 0 si lo pudo ordenar y -1 si no
  */
 int sortEmployees(Employee* list, int len, int order)
@@ -461,14 +473,13 @@ int sortEmployees(Employee* list, int len, int order)
 	if(list != NULL && len > 0)
 	{
 
-		if(order == 0)
+		if(order == 1)
 		{
 			limiteVariable = len -1;
 			retorno = 0;
 			do
 			{
 				flagSwap = 0;
-
 				for(i=0; i<limiteVariable;i++)
 				{
 
@@ -479,25 +490,21 @@ int sortEmployees(Employee* list, int len, int order)
 						swapEmployee(list+i,list+i+1);
 						flagSwap = 1;
 					}
-
-
 				}
 				limiteVariable--;
 
 			}while(flagSwap);
 			retorno = 0;
 		}
-		else if(order == 1)
+		else if(order == 0)
 		{
 			limiteVariable = len -1;
 			retorno = 0;
 			do
 			{
 				flagSwap = 0;
-
 				for(i=0; i<limiteVariable;i++)
 				{
-
 					if((strncmp(list[i].lastName,list[i+1].lastName,sizeof(list[i].lastName)) < 0)||
 					   (strncmp(list[i].lastName,list[i+1].lastName,sizeof(list[i].lastName)) == 0 &&
 						list[i].sector < list[i+1].sector))
@@ -505,8 +512,6 @@ int sortEmployees(Employee* list, int len, int order)
 						swapEmployee(list+i,list+i+1);
 						flagSwap = 1;
 					}
-
-
 				}
 				limiteVariable--;
 
@@ -533,7 +538,7 @@ int listarTotalYPromedios(Employee* list, int len)
     int contadorEmpleados = 0;
     int i;
 
-	if(list != NULL)
+	if(list != NULL && len > 0)
 	{
 		for(i=0; i<len; i++)
 		{
@@ -560,3 +565,4 @@ int listarTotalYPromedios(Employee* list, int len)
 
 	return retorno;
 }
+
