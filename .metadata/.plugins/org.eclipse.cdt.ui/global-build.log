@@ -1,0 +1,12 @@
+21:38:43 **** Incremental Build of configuration Debug for project Clase 18 ****
+Info: Internal Builder is used for build
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -o utn.o "..\\utn.c" 
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -o Alumno.o "..\\Alumno.c" 
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -o main.o "..\\main.c" 
+gcc -o "Clase 18" Alumno.o main.o utn.o 
+Info: Nothing to build for Clase 18
+21:39:29 **** Incremental Build of configuration Debug for project Clase 18 ****
+Info: Internal Builder is used for build
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -o main.o "..\\main.c" 
+gcc -o "Clase 18" Alumno.o main.o utn.o 
+Info: Nothing to build for Clase 18

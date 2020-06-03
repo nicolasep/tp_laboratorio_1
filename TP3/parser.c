@@ -12,17 +12,16 @@
  */
 int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 {
-	fopen(pFile,"r");
-	LinkedList* p;
-
+	int retorno = -1;
+	//FILE* p = fopen(pFile,"r");
 
 	if(pFile != NULL && pArrayListEmployee != NULL)
 	{
-
+		retorno = 0;
 	}
 
-
-    return 1;
+	//fclose(p);
+    return retorno;
 }
 
 /** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo binario).
