@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "LinkedList.h"
 #include "Employee.h"
-
+#include "utn.h"
 
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
  *
@@ -48,7 +49,32 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee)
  */
 int controller_addEmployee(LinkedList* pArrayListEmployee)
 {
-    return 1;
+	int retorno = -1;
+	Employee* auxEmployee;
+	int len = ll_len(pArrayListEmployee);
+	char idAux[20];
+	sprintf(idAux,"%d",len+1);
+	char nombreAux[128];
+	char sueldoAux[20];
+	char horasAux[20];
+
+	if(pArrayListEmployee != NULL)
+	{
+		if(!utn_getNombre(nombreAux,128,"Ingrese nombre: ","Error, solo se deben ingresar letras\n",2)&&
+				!utn_getDescripcion(horasAux,20,"Ingrese cantidad de horas trabajadas: ","Error, deben ser solo numeros\n",2)&&
+				!utn_getDescripcion(sueldoAux,20,"Ingrese el sueldo: ","Error, deben ser solo numeros\n",2))
+		{
+			auxEmployee = employee_newParametros(idAux,nombreAux,horasAux,sueldoAux);
+			if(
+				!ll_add(pArrayListEmployee,(Employee*)auxEmployee))
+			{
+				retorno = 0;
+				printf("Empleado ingresado con exito\n");
+			}
+		}
+
+	}
+    return retorno;
 }
 
 /** \brief Modificar datos de empleado
@@ -60,7 +86,15 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
  */
 int controller_editEmployee(LinkedList* pArrayListEmployee)
 {
-    return 1;
+	int retorno = -1;
+
+	if(pArrayListEmployee != NULL)
+	{
+
+	}
+
+
+    return retorno;
 }
 
 /** \brief Baja de empleado
