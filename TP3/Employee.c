@@ -22,7 +22,7 @@ Employee* employee_new()
 	return auxEmployee;
 
 }
-Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr)
+Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* SueldoStr)
 {
 
 	Employee* auxEmployee = employee_new();
@@ -30,7 +30,8 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
 		if(auxEmployee != NULL &&
 		   !employee_setId(auxEmployee,atoi(idStr)) &&
 		   !employee_setNombre(auxEmployee,nombreStr)&&
-		   !employee_setHorasTrabajadas(auxEmployee,atof(horasTrabajadasStr)))
+		   !employee_setHorasTrabajadas(auxEmployee,atoi(horasTrabajadasStr))&&
+		   !employee_setSueldo(auxEmployee,atoi(SueldoStr)))
 		{
 			return auxEmployee;
 		}
@@ -40,11 +41,12 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
 		}
 
 }
-void employee_delete(void)
+void employee_delete(Employee* pEmployee)
 {
-
-
-
+	if(pEmployee != NULL)
+	{
+		free(pEmployee);
+	}
 }
 
 int employee_setId(Employee* this,int id)
@@ -167,5 +169,23 @@ static int esId(char* cadena,int limite)
 	}
 
 
+	return retorno;
+}
+int employee_printEmployees(LinkedList* pArrayListEmployee)
+{
+	int retorno = -1;
+	int i;
+	Employee* aux;
+	if(pArrayListEmployee != NULL)
+	{
+		for(i=0;i<ll_len(pArrayListEmployee);i++)
+		{
+			aux = ll_get(pArrayListEmployee,i);
+			if(aux != NULL)
+			{
+				printf("%d - %s - %d - %d\n",aux->id,aux->nombre,aux->horasTrabajadas,aux->sueldo);
+			}
+		}
+	}
 	return retorno;
 }

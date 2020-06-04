@@ -17,15 +17,13 @@ int controller_loadFromText(char* path , LinkedList* pArrayListEmployee)
 
 	if(path != NULL && pArrayListEmployee != NULL)
 	{
-		FILE* archivo = fopen(path,"r");
-		if(!parser_EmployeeFromText(archivo,pArrayListEmployee))
+		FILE* p = fopen(path,"r");
+		if(!parser_EmployeeFromText(p,pArrayListEmployee))
 		{
 			retorno = 0;
 		}
-
+		fclose(p);
 	}
-
-
     return retorno;
 }
 
