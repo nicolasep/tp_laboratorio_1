@@ -44,7 +44,7 @@ int ll_set(LinkedList* this, int index,void* pElement);
 int ll_remove(LinkedList* this,int index);
 int ll_clear(LinkedList* this);
 int ll_deleteLinkedList(LinkedList* this);
-int ll_indexOf(LinkedList* this, void* pElement);
+int ll_indexOf(LinkedList* this, void* pElement);//devuelve el id
 int ll_isEmpty(LinkedList* this);
 int ll_push(LinkedList* this, int index, void* pElement);
 void* ll_pop(LinkedList* this,int index);

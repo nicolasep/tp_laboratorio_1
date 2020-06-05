@@ -28,4 +28,9 @@ int employee_setSueldo(Employee* this,int sueldo);
 int employee_getSueldo(Employee* this,int* sueldo);
 
 int employee_printEmployees(LinkedList* pArrayListEmployee);
+int employee_printEmployee(Employee* pElement);
+int employee_printById(LinkedList* pArrayListEmployee, int id);
+int employee_findById(LinkedList* pArrayListEmployee, int id);
+int employee_idMax(LinkedList* pArrayListEmployee);
+int employee_funcionCriterio(void* item1,void* item2);
 #endif // employee_H_INCLUDED

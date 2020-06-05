@@ -3,6 +3,7 @@
 #include <string.h>
 #include "LinkedList.h"
 #include "Employee.h"
+#include "parser.h"
 #include "utn.h"
 
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
@@ -51,9 +52,8 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 {
 	int retorno = -1;
 	Employee* auxEmployee;
-	int len = ll_len(pArrayListEmployee);
 	char idAux[20];
-	sprintf(idAux,"%d",len+1);
+	sprintf(idAux,"%d",employee_idMax(pArrayListEmployee));
 	char nombreAux[128];
 	char sueldoAux[20];
 	char horasAux[20];
@@ -87,9 +87,65 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 int controller_editEmployee(LinkedList* pArrayListEmployee)
 {
 	int retorno = -1;
+	int idEmpleado;
+	int opcion;
+	int len = ll_len(pArrayListEmployee);
+	Employee* aux;
+	char auxString[128];
+	int auxInt;
+	int indice;
 
-	if(pArrayListEmployee != NULL)
+
+	if(pArrayListEmployee != NULL && !employee_printEmployees(pArrayListEmployee)&&
+	   !utn_getNumero(&idEmpleado,"Ingrese el id del empleado a modificar: ","Error, debe ser un numero",1,len,2)&&
+	   (indice = employee_findById(pArrayListEmployee,idEmpleado))>=0)
 	{
+		printf("El empleado a modificar es: ");
+		employee_printById(pArrayListEmployee,idEmpleado);
+
+		 if(!utn_getNumero(&opcion,"Ingrese el campo a modificar\n"
+								   "1 - Modificar nombre\n"
+								   "2 - Modificar horas trabajadas\n"
+								   "3 - Modificar sueldo\n"
+								   "4 - Salir\n","Error, debe ser un numero\n",1,4,2))
+		{
+
+			aux = ll_get(pArrayListEmployee,indice);
+			switch(opcion)
+			{
+			case 1:
+				if(!utn_getNombre(auxString,128,"Ingrese nuevo nombre: ","Error, debe contener solo letras\n",2)&&
+				   !utn_confirmacionAccionChar("Esta seguro que decea cambiar el nombre? ingrese s para seguir\n"))
+				{
+					employee_setNombre(aux,auxString);
+					ll_set(pArrayListEmployee,indice,aux);
+					printf("El nombre del empleado se modifico con exito!!!\n");
+				}
+
+				break;
+			case 2:
+				if(!utn_getNumero(&auxInt,"Ingrese horas trabajadas: ","Error, debe contener solo numeros\n",0,1000,2)&&
+								   !utn_confirmacionAccionChar("Esta seguro que decea cambiar las horas trabajadas? ingrese s para seguir\n"))
+				{
+					employee_setHorasTrabajadas(aux,auxInt);
+					ll_set(pArrayListEmployee,indice,aux);
+					printf("Las horas trabajadas se modificaron con exito!!!\n");
+				}
+				break;
+			case 3:
+				if(!utn_getNumero(&auxInt,"Ingrese nuevo sueldo: ","Error, debe contener solo numeros\n",0,1000000,2)&&
+							   !utn_confirmacionAccionChar("Esta seguro que decea cambiar el sueldo? ingrese s para seguir\n"))
+				{
+					employee_setSueldo(aux,auxInt);
+					ll_set(pArrayListEmployee,indice,aux);
+					printf("El sueldo del empleado se modifico con exito!!!\n");
+				}
+				break;
+			case 4:
+				printf("Operacion cancelada\n");
+				break;
+			}
+		}
 
 	}
 
@@ -106,7 +162,22 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
  */
 int controller_removeEmployee(LinkedList* pArrayListEmployee)
 {
-    return 1;
+	int retorno = -1;
+	int idEliminar;
+	int indiceEliminar;
+	Employee* auxEmployee;
+	if(pArrayListEmployee != NULL)
+	{
+		if(!utn_getNumero(&idEliminar,"Elija el id del empleado a eliminar: ","Error, debe ser un numero\n",1,employee_idMax(pArrayListEmployee),2)&&
+			(indiceEliminar=employee_findById(pArrayListEmployee,idEliminar))>=0)
+		{
+			auxEmployee = (Employee*)ll_remove(pArrayListEmployee,indiceEliminar);
+			employee_delete(auxEmployee);
+
+		}
+	}
+
+    return retorno;
 }
 
 /** \brief Listar empleados

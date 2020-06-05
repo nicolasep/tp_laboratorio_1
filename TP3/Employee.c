@@ -183,9 +183,106 @@ int employee_printEmployees(LinkedList* pArrayListEmployee)
 			aux = ll_get(pArrayListEmployee,i);
 			if(aux != NULL)
 			{
-				printf("%d - %s - %d - %d\n",aux->id,aux->nombre,aux->horasTrabajadas,aux->sueldo);
+				//printf("%d - %s - %d - %d\n",aux->id,aux->nombre,aux->horasTrabajadas,aux->sueldo);
+				employee_printEmployee(aux);
+			}
+			retorno = 0;
+		}
+	}
+	return retorno;
+}
+int employee_printEmployee(Employee* pElement)
+{
+	int retorno = -1;
+	if(pElement != NULL)
+	{
+		printf("ID: %d - NOMBRE: %s - HORAS T: %d - SUELDO: %d\n",pElement->id,pElement->nombre,pElement->horasTrabajadas,pElement->sueldo);
+		retorno = 0;
+	}
+	return retorno;
+}
+int employee_printById(LinkedList* pArrayListEmployee, int id)
+{
+	int retorno = -1;
+	int i;
+	if(pArrayListEmployee != NULL)
+	{
+		for(i=0; i<ll_len(pArrayListEmployee);i++)
+		{
+
+			if(id == ((Employee*)ll_get(pArrayListEmployee,i))->id)
+			{
+				employee_printEmployee((Employee*)ll_get(pArrayListEmployee,i));
+				retorno = i;
+				break;
 			}
 		}
+	}
+
+	return retorno;
+}
+int employee_findById(LinkedList* pArrayListEmployee, int id)
+{
+	int retorno = -1;
+	int i;
+	if(pArrayListEmployee != NULL)
+	{
+		for(i=0; i<ll_len(pArrayListEmployee);i++)
+		{
+			if(id == ((Employee*)ll_get(pArrayListEmployee,i))->id)
+			{
+				retorno = i;
+				break;
+			}
+		}
+	}
+
+	return retorno;
+}
+int employee_idMax(LinkedList* pArrayListEmployee)
+{
+	int retorno = -1;
+	int i;
+	int idMax = 1;
+
+	if(pArrayListEmployee != NULL)
+	{
+		for(i=0;i<ll_len(pArrayListEmployee);i++)
+		{
+			if(idMax < ((Employee*)ll_get(pArrayListEmployee,i))->id)
+			{
+				idMax = ((Employee*)ll_get(pArrayListEmployee,i))->id;
+				idMax++;
+			}
+		}
+
+		retorno = idMax;
+	}
+
+	return retorno;
+}
+int employee_funcionCriterio(void* item1,void* item2)
+{
+	int retorno = 0;
+	int sueldo1;
+	int sueldo2;
+	if(item1 != NULL && item2 != NULL)
+	{
+		Employee* aux1 =(Employee*) item1;
+		Employee* aux2 =(Employee*) item2;
+		if(!employee_getSueldo(aux1,&sueldo1)&&
+		   !employee_getSueldo(aux2,&sueldo2))
+		{
+			if(sueldo1 > sueldo2)
+			{
+				retorno = 1;
+			}
+			else if(sueldo1 < sueldo2)
+			{
+				retorno = -1;
+			}
+		}
+
 	}
 	return retorno;
 }
