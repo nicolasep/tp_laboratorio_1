@@ -3,9 +3,12 @@
 #include <string.h>
 #include "Employee.h"
 
+#define NOMBRE_LEN 128
 
 static int esId(char* cadena,int limite);
-
+static int esNombreg(char* cadena,int longitud);
+static int sonHorasT(char* cadena,int limite);
+static int esSueldo(char* cadena,int limite);
 
 
 Employee* employee_new()
@@ -52,7 +55,7 @@ void employee_delete(Employee* pEmployee)
 int employee_setId(Employee* this,int id)
 {
 	int retorno = -1;
-	char auxChar[128];
+	char auxChar[10];
 	sprintf(auxChar,"%d",id);
 	if(this !=NULL && id > 0 && esId(auxChar,10))
 	{
@@ -80,10 +83,8 @@ int employee_getIdChar(Employee* this,char* id)
 
 	if(this != NULL && id != NULL)
 	{
-		printf("id: %d",this->id);
-	sprintf(id,"%d",this->id);
+	  sprintf(id,"%d",this->id);
 
-		//*id = this->id;
 		retorno = 0;
 	}
 
@@ -92,7 +93,7 @@ int employee_getIdChar(Employee* this,char* id)
 int employee_setNombre(Employee* this,char* nombre)
 {
 	int retorno = -1;
-	if(this != NULL && nombre != NULL)
+	if(this != NULL && nombre != NULL && esNombreg(nombre,NOMBRE_LEN))
 	{
 		strncpy(this->nombre,nombre,sizeof(this->nombre));
 		retorno = 0;
@@ -114,7 +115,9 @@ int employee_getNombre(Employee* this,char* nombre)
 int employee_setHorasTrabajadas(Employee* this,int horasTrabajadas)
 {
 	int retorno = -1;
-	if(this != NULL && horasTrabajadas >= 0)
+	char auxHorasT[20];
+	sprintf(auxHorasT,"%d",horasTrabajadas);
+	if(this != NULL && horasTrabajadas >= 0 && sonHorasT(auxHorasT,20))
 	{
 		this->horasTrabajadas = horasTrabajadas;
 
@@ -139,7 +142,6 @@ int employee_getHorasTrabajadasChar(Employee* this,char* horasTrabajadas)
 	if(this != NULL && horasTrabajadas != NULL)
 	{
 		sprintf(horasTrabajadas,"%d",this->horasTrabajadas);
-		//*horasTrabajadas = this->horasTrabajadas;
 
 		retorno = 0;
 	}
@@ -148,7 +150,9 @@ int employee_getHorasTrabajadasChar(Employee* this,char* horasTrabajadas)
 int employee_setSueldo(Employee* this,int sueldo)
 {
 	int retorno = -1;
-	if(this != NULL && sueldo >= 0)
+	char auxSueldo[20];
+	sprintf(auxSueldo,"%d",sueldo);
+	if(this != NULL && sueldo >= 0 && esSueldo(auxSueldo,20))
 	{
 		this->sueldo = sueldo;
 
@@ -173,12 +177,12 @@ int employee_getSueldoChar(Employee* this,char* sueldo)
 	if(this != NULL && sueldo != NULL)
 	{
 		sprintf(sueldo,"%d",this->sueldo);
-		//*sueldo = this->sueldo;
 
 		retorno = 0;
 	}
 	return retorno;
 }
+//////////FUNCIONES DE VALIDACION DE GETTERS//////////
 /**
  * \brief Verifica si la cadena ingresada es un numero valido
  * \param cadena Cadena de caracteres a ser analizada
@@ -193,7 +197,81 @@ static int esId(char* cadena,int limite)
 
 	for(i=0; i<limite && cadena[i] !='\0'; i++)
 	{
-		if(i==0 && (cadena[i] == '+' || cadena[i] == '-'))
+		if(cadena[i] > '9' || cadena[i] < '0')
+		{
+			retorno = 0;
+			break;
+		}
+	}
+
+
+	return retorno;
+}
+/**
+ * \brief Verifica si la cadena ingresada es un nombre valido
+ * \param cadena Cadena de caracteres a ser analizada
+ * \return Retorna 1 (verdadero) si la cadena es valida y 0 (falso) si no lo es
+ *
+ */
+static int esNombreg(char* cadena,int longitud)
+{
+	int i=0;
+	int retorno = 1;
+
+	if(cadena != NULL && longitud > 0)
+	{
+		for(i=0 ; cadena[i] != '\0' && i < longitud; i++)
+		{
+			if((cadena[i] < 'A' || cadena[i] > 'Z' ) && (cadena[i] < 'a' || cadena[i] > 'z' )&& cadena[i] != ' ')
+			{
+				retorno = 0;
+				break;
+			}
+		}
+	}
+	return retorno;
+}
+/**
+ * \brief Verifica si la cadena ingresada es un numero valido
+ * \param cadena Cadena de caracteres a ser analizada
+ * \param limite de la cadena
+ * \return Retorna 1 (verdadero) si el numero es valido y 0 (falso) si no lo es
+ *
+ */
+static int sonHorasT(char* cadena,int limite)
+{
+	int retorno = 1;
+	int i;
+
+	for(i=0; i<limite && cadena[i] !='\0'; i++)
+	{
+		if(i==0 && cadena[i] == '+')
+		{
+			continue;
+		}
+		if(cadena[i] > '9' || cadena[i] < '0')
+		{
+			retorno = 0;
+			break;
+		}
+	}
+	return retorno;
+}
+/**
+ * \brief Verifica si la cadena ingresada es un numero valido
+ * \param cadena Cadena de caracteres a ser analizada
+ * \param limite de la cadena
+ * \return Retorna 1 (verdadero) si el numero es valido y 0 (falso) si no lo es
+ *
+ */
+static int esSueldo(char* cadena,int limite)
+{
+	int retorno = 1;
+	int i;
+
+	for(i=0; i<limite && cadena[i] !='\0'; i++)
+	{
+		if(i==0 && cadena[i] == '+')
 		{
 			continue;
 		}
@@ -207,6 +285,8 @@ static int esId(char* cadena,int limite)
 
 	return retorno;
 }
+////////////////////////////////////////////////////
+
 int employee_printEmployee(Employee* pElement)
 {
 	int retorno = -1;
