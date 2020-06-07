@@ -6,9 +6,9 @@
 
 /** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo texto).
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param path char* archivo del cual se van a cargar los empleados
+ * \param pArrayListEmployee LinkedList* puntero al espacio de memoria donde se encuentra la lista donde se van a cargar los empleados
+ * \return int devuelve 0 si se pudieron cargar los empleados o -1 si hubo un error
  *
  */
 int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
@@ -42,9 +42,9 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 
 /** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo binario).
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param path char* archivo del cual se van a cargar los datos
+ * \param pArrayListEmployee LinkedList* puntero a la direccion de memoria de la lista a la cual se van a cargar los datos
+ * \return int devuelve la cantidad de empleados que se cargaron y si no se pudieron cargar devuelve -1
  *
  */
 int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)//ver!!!!!!!!!!!!

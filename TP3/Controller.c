@@ -9,9 +9,9 @@
 
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param path char* archivo desde el cual se van a cargar los datos
+ * \param pArrayListEmployee LinkedList* puntero a la direccion de memoria de la lista donde se van a cargar
+ * \return int devuelve 0 si se pudo cargar y -1 si no
  *
  */
 int controller_loadFromText(char* path , LinkedList* pArrayListEmployee)
@@ -41,9 +41,9 @@ int controller_loadFromText(char* path , LinkedList* pArrayListEmployee)
 
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo binario).
  *
- * \param path char* archivo a cargar
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param path char* archivo desde el cual se van a cargar los datos
+ * \param pArrayListEmployee LinkedList* puntero a la direccion de memoria de la lista donde se van a cargar
+ * \return int devuelve 0 si se pudo cargar y -1 si no
  *
  */
 int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee)
@@ -74,9 +74,8 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee)
 
 /** \brief Alta de empleados
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param pArrayListEmployee LinkedList* puntero a la direccion de memoria de la lista
+ * \return int devuelve 0 si se pudo cargar y -1 si no se pudo
  *
  */
 int controller_addEmployee(LinkedList* pArrayListEmployee)
@@ -84,18 +83,19 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 	int retorno = -1;
 	Employee* auxEmployee;
 	char idAux[20];
-	sprintf(idAux,"%d",employee_idMax(pArrayListEmployee));
 	char nombreAux[128];
 	char sueldoAux[20];
 	char horasAux[20];
 
 	if(pArrayListEmployee != NULL)
 	{
+
 		printf("\n----ALTA EMPLEADO----\n");
 		if(!utn_getNombre(nombreAux,128,"\nIngrese nombre: ","Error, solo se deben ingresar letras\n",2)&&
 				!utn_getDescripcion(horasAux,20,"Ingrese cantidad de horas trabajadas: ","Error, deben ser solo numeros\n",2)&&
 				!utn_getDescripcion(sueldoAux,20,"Ingrese el sueldo: ","Error, deben ser solo numeros\n",2))
 		{
+			sprintf(idAux,"%d",employee_idMax(pArrayListEmployee));
 			auxEmployee = employee_newParametros(idAux,nombreAux,horasAux,sueldoAux);
 			if(
 				!ll_add(pArrayListEmployee,(Employee*)auxEmployee))
@@ -111,9 +111,8 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 
 /** \brief Modificar datos de empleado
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param pArrayListEmployee LinkedList* puntero a la direccion de memoria de la lista
+ * \return int devuelve 0 si se pudo modificar y -1 si no se pudo
  *
  */
 int controller_editEmployee(LinkedList* pArrayListEmployee)
@@ -155,6 +154,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 						employee_setNombre(aux,auxString);
 						ll_set(pArrayListEmployee,indice,aux);
 						printf("\nEl nombre del empleado se modifico con exito!!!\n");
+						retorno = 0;
 					}
 					break;
 				case 2:
@@ -164,6 +164,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 						employee_setHorasTrabajadas(aux,auxInt);
 						ll_set(pArrayListEmployee,indice,aux);
 						printf("Las horas trabajadas se modificaron con exito!!!\n");
+						retorno = 0;
 					}
 					break;
 				case 3:
@@ -173,6 +174,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 						employee_setSueldo(aux,auxInt);
 						ll_set(pArrayListEmployee,indice,aux);
 						printf("\nEl sueldo del empleado se modifico con exito!!!\n");
+						retorno = 0;
 					}
 					break;
 				case 4:
@@ -187,9 +189,8 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 
 /** \brief Baja de empleado
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param pArrayListEmployee LinkedList* puntero a la direccion de memoria de la lista
+ * \return int devuelve 0 si se pudo eliminar y -1 si no se pudo
  *
  */
 int controller_removeEmployee(LinkedList* pArrayListEmployee)
@@ -227,9 +228,8 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee)
 
 /** \brief Listar empleados
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param pArrayListEmployee LinkedList* puntero a la direccion de memoria de la lista
+ * \return int devuelve 0 si se pudo mostrar y -1 si no se pudo
  *
  */
 int controller_ListEmployee(LinkedList* pArrayListEmployee)
@@ -254,9 +254,8 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
 
 /** \brief Ordenar empleados
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param pArrayListEmployee LinkedList* puntero a la direccion de memoria de la lista
+ * \return int devuelve 0 si se pudo ordenar y -1 si no se pudo
  *
  */
 int controller_sortEmployee(LinkedList* pArrayListEmployee)
@@ -285,9 +284,9 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 
 /** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param path char* archivo en el cual se van a guardar los datos
+ * \param pArrayListEmployee LinkedList* puntero a la direccion de memoria de la lista
+ * \return int devuelve 0 si se pudo guardar la lista completa y -1 si no se pudo
  *
  */
 int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
@@ -313,6 +312,7 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 		}
 		if(contador == ll_len(pArrayListEmployee))
 		{
+			printf("Lista guardada en modo texto con exito\n");
 			retorno = 0;
 		}
 	}
@@ -325,9 +325,9 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 
 /** \brief Guarda los datos de los empleados en el archivo data.csv (modo binario).
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param path char* archivo en el cual se van a guardar los datos
+ * \param pArrayListEmployee LinkedList* puntero a la direccion de memoria de la lista
+ * \return int devuelve 0 si se pudo guardar la lista completa y -1 si no se pudo
  *
  */
 int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
@@ -353,7 +353,7 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 		}
 		if(contador == ll_len(pArrayListEmployee))
 		{
-			printf("lista guardada en binario\n");
+			printf("Lista guardada en binario con exito\n");
 			retorno = 0;
 		}
 

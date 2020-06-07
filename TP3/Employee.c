@@ -10,7 +10,9 @@ static int esNombreg(char* cadena,int longitud);
 static int sonHorasT(char* cadena,int limite);
 static int esSueldo(char* cadena,int limite);
 
-
+/** \brief reserva un espacio en memoria para un empleado, le carga valores iniciales y lo devuelve.
+ * \return int si no pudo reservar el espacio en memoria devuelve NULL, de lo contrario devuelve el puntero al espacio en memoria.
+ */
 Employee* employee_new()
 {
 	Employee* auxEmployee = (Employee*)malloc(sizeof(Employee));
@@ -25,6 +27,14 @@ Employee* employee_new()
 	return auxEmployee;
 
 }
+/**\ brief crea un empleado en memoria y le asigna los paramatros pasados
+ * \param puntero al espacio en memoria del id a cargar
+ * \param puntero al espacio en memoria del nombre a cargar
+ * \param puntero al espacio en memoria de las horas trabajadas cargar
+ * \param puntero al espacio en memoria del sueldo a cargar
+ * \return si salio bien devuelve el empleado con los el puntero del empleado con los datos cargados, de lo contrario devuelve NULL
+ *
+ */
 Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* SueldoStr)
 {
 
@@ -44,6 +54,10 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
 		}
 
 }
+/**\brief libera el espacio en memoria de un empleado
+ * \param puntero al espacio en memoria de un empleado
+ *
+ */
 void employee_delete(Employee* pEmployee)
 {
 	if(pEmployee != NULL)
@@ -51,7 +65,12 @@ void employee_delete(Employee* pEmployee)
 		free(pEmployee);
 	}
 }
-
+/**\brief setea id en un empleado
+ * \param puntero al espacio en memoria del empleado
+ * \param variable a volcar en el empleado
+ * \return devuelve 0 si lo pudo cargar, -1 si no pudo o no es un id aceptable
+ *
+ */
 int employee_setId(Employee* this,int id)
 {
 	int retorno = -1;
@@ -65,6 +84,12 @@ int employee_setId(Employee* this,int id)
 
 	return retorno;
 }
+/**\brief devuelve el id de un empleado puntual
+ * \param puntero al espacio en memoria del empleado
+ * \param puntero al espacio en memoria donde se asigna el id del empleado
+ * \return devuelve 0 si lo pudo cargar, -1 si no pudo
+ *
+ */
 int employee_getId(Employee* this,int* id)
 {
 	int retorno = -1;
@@ -77,6 +102,12 @@ int employee_getId(Employee* this,int* id)
 
 	return retorno;
 }
+/**\brief setea id en modo texto en un empleado
+ * \param puntero al espacio en memoria del empleado
+ * \param puntero al espacio en memoria de ese id
+ * \return devuelve 0 si lo pudo cargar, -1 si no pudo o no es un id aceptable
+ *
+ */
 int employee_getIdChar(Employee* this,char* id)
 {
 	int retorno = -1;
@@ -90,6 +121,12 @@ int employee_getIdChar(Employee* this,char* id)
 
 	return retorno;
 }
+/**\brief setea el nombre en un empleado
+ * \param puntero al espacio en memoria del empleado
+ * \param puntero a la cadena que contiene el nombre a guardar en el empleado
+ * \return devuelve 0 si lo pudo cargar, -1 si no pudo o no es un nombre aceptable
+ *
+ */
 int employee_setNombre(Employee* this,char* nombre)
 {
 	int retorno = -1;
@@ -100,6 +137,12 @@ int employee_setNombre(Employee* this,char* nombre)
 	}
 	return retorno;
 }
+/**\brief de un empleado devuelve el nombre
+ * \param puntero al espacio en memoria del empleado
+ * \param puntero a la cadena donde se va a retornar el nombre
+ * \return devuelve 0 si lo pudo cargar, -1 si no pudo
+ *
+ */
 int employee_getNombre(Employee* this,char* nombre)
 {
 	int retorno = -1;
@@ -111,7 +154,12 @@ int employee_getNombre(Employee* this,char* nombre)
 
 	return retorno;
 }
-
+/**\brief setea las horas trabajadas en un empleado
+ * \param puntero al espacio en memoria del empleado
+ * \param variable a volcar en el empleado
+ * \return devuelve 0 si lo pudo cargar, -1 si no pudo o no es un numero aceptable
+ *
+ */
 int employee_setHorasTrabajadas(Employee* this,int horasTrabajadas)
 {
 	int retorno = -1;
@@ -125,6 +173,12 @@ int employee_setHorasTrabajadas(Employee* this,int horasTrabajadas)
 	}
 	return retorno;
 }
+/**\brief devuelve las horas trabajadas de un empleado puntual
+ * \param puntero al espacio en memoria del empleado
+ * \param puntero al espacio en memoria donde se cargan las horas trabajdas del empleado
+ * \return devuelve 0 si lo pudo cargar, -1 si no pudo
+ *
+ */
 int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas)
 {
 	int retorno = -1;
@@ -136,6 +190,12 @@ int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas)
 	}
 	return retorno;
 }
+/**\brief devuelve las horas trabajadas en modo texto de un empleado puntual
+ * \param puntero al espacio en memoria del empleado
+ * \param puntero al espacio en memoria donde se cargan las horas trabajdas del empleado en modo texto
+ * \return devuelve 0 si lo pudo cargar, -1 si no pudo
+ *
+ */
 int employee_getHorasTrabajadasChar(Employee* this,char* horasTrabajadas)
 {
 	int retorno = -1;
@@ -147,6 +207,12 @@ int employee_getHorasTrabajadasChar(Employee* this,char* horasTrabajadas)
 	}
 	return retorno;
 }
+/**\brief setea el sueldo en un empleado
+ * \param puntero al espacio en memoria del empleado
+ * \param variable a volcar en el empleado
+ * \return devuelve 0 si lo pudo cargar, -1 si no pudo o no es un numero aceptable
+ *
+ */
 int employee_setSueldo(Employee* this,int sueldo)
 {
 	int retorno = -1;
@@ -160,6 +226,12 @@ int employee_setSueldo(Employee* this,int sueldo)
 	}
 	return retorno;
 }
+/**\brief devuelve el sueldo de un empleado puntual
+ * \param puntero al espacio en memoria del empleado
+ * \param puntero al espacio en memoria donde se carga el sueldo del empleado
+ * \return devuelve 0 si lo pudo cargar, -1 si no pudo
+ *
+ */
 int employee_getSueldo(Employee* this,int* sueldo)
 {
 	int retorno = -1;
@@ -171,6 +243,12 @@ int employee_getSueldo(Employee* this,int* sueldo)
 	}
 	return retorno;
 }
+/**\brief devuelve el sueldo en modo texto de un empleado puntual
+ * \param puntero al espacio en memoria del empleado
+ * \param puntero al espacio en memoria donde se carga el sueldo del empleado en modo texto
+ * \return devuelve 0 si lo pudo cargar, -1 si no pudo
+ *
+ */
 int employee_getSueldoChar(Employee* this,char* sueldo)
 {
 	int retorno = -1;
@@ -287,6 +365,11 @@ static int esSueldo(char* cadena,int limite)
 }
 ////////////////////////////////////////////////////
 
+/**\brief imprime un empleado por pantalla
+ * \param puntero al espacio en memoria de ese empleado
+ * \return devuelve 0 si lo pudo imprimir y -1 si no
+ *
+ */
 int employee_printEmployee(Employee* pElement)
 {
 	int retorno = -1;
@@ -306,6 +389,12 @@ int employee_printEmployee(Employee* pElement)
 	}
 	return retorno;
 }
+/**\brief imprime un empleado por pantalla segun el id
+ * \param puntero al espacio en memoria de ese empleado
+ * \param variable que contiene el id a buscar
+ * \return devuelve la ubicacion en la lista si lo pudo imprimir y -1 si no
+ *
+ */
 int employee_printById(LinkedList* pArrayListEmployee, int id)
 {
 	int retorno = -1;
@@ -326,6 +415,12 @@ int employee_printById(LinkedList* pArrayListEmployee, int id)
 
 	return retorno;
 }
+/**\brief busca un empleado por su id y devuelve su ubicacion en la lista
+ * \param puntero al espacio en memoria de ese empleado
+ * \param variable que contiene el id a buscar
+ * \return devuelve la ubicacion en la lista si lo encontro y -1 si no lo encontro
+ *
+ */
 int employee_findById(LinkedList* pArrayListEmployee, int id)
 {
 	int retorno = -1;
@@ -344,11 +439,15 @@ int employee_findById(LinkedList* pArrayListEmployee, int id)
 
 	return retorno;
 }
+/**\brief buscar el id maximo utilizado hasta ese momento
+ * \param puntero al espacio en memoria de la lista a analizar
+ * \return devuelve el id maximo hasta el momento 0 -1 si hubo un error
+ */
 int employee_idMax(LinkedList* pArrayListEmployee)
 {
 	int retorno = -1;
 	int i;
-	int idMax = 1;
+	int idMax = 0;
 
 	if(pArrayListEmployee != NULL)
 	{
@@ -357,15 +456,20 @@ int employee_idMax(LinkedList* pArrayListEmployee)
 			if(idMax < ((Employee*)ll_get(pArrayListEmployee,i))->id)
 			{
 				idMax = ((Employee*)ll_get(pArrayListEmployee,i))->id;
-				idMax++;
 			}
 		}
+		idMax++;
 
 		retorno = idMax;
 	}
 
 	return retorno;
 }
+/**\brief analiza si el sueldo de emplado es mayor a otro  y si son iguales los compara por cantidad de horas trabajadas
+ * \param puntero al primer elemento a comparar
+ * \param puntero al segundo elemento a comparar
+ * \return devuelve 1 si el elemento 1 es mayor, -1 si es menos y si es igual y las horas trabajadas del elemento 1 son mayores devuelve 1 y -1 si son menores
+ */
 int employee_funcionCriterioPorSueldo(void* item1,void* item2)
 {
 	int retorno = 0;
@@ -395,6 +499,11 @@ int employee_funcionCriterioPorSueldo(void* item1,void* item2)
 	}
 	return retorno;
 }
+/**\brief compara dos elementos del tipo empleado y devuelve si las horas trabajadas del elemento 1 son mayores que las del elemento 2
+ * \param puntero al primer elemento a comparar
+ * \param puntero al segundo elemento a comparar
+ * \return devuelve 1 si las horas trabajadas del elemento 1 son mayores al elemento 2 o -1 si son menores
+ */
 int employee_funcionCriterioPorHorasT(void* item1,void* item2)
 {
 	int retorno = 0;

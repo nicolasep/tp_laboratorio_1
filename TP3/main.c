@@ -51,7 +51,7 @@ int main()
             	}
             	else
             	{
-            		if(!controller_loadFromText("data3.csv",listaEmpleados))
+            		if(!controller_loadFromText("data.csv",listaEmpleados))
             		{
                 	flagCarga = 1;
             		}
@@ -69,7 +69,7 @@ int main()
 				}
 				else
 				{
-					if(!controller_loadFromBinary("data2.bin",listaEmpleados))
+					if(!controller_loadFromBinary("data.csv",listaEmpleados))
 					{
 					flagCarga = 1;
 					}
@@ -141,7 +141,7 @@ int main()
 				}
 				else
 				{
-					controller_saveAsText("data3.csv",listaEmpleados);
+					controller_saveAsText("data.csv",listaEmpleados);
 				}
 
             	break;
@@ -152,7 +152,7 @@ int main()
 				}
 				else
 				{
-					controller_saveAsBinary("data2.bin",listaEmpleados);
+					controller_saveAsBinary("data.csv",listaEmpleados);
 				}
 
             	break;
