@@ -22,6 +22,8 @@
 int main()
 {
 	setbuf(stdout,NULL);
+
+	int flagCarga = 0;
     int option;
     LinkedList* listaEmpleados = ll_newLinkedList();
 
@@ -41,33 +43,118 @@ int main()
         switch(option)
         {
             case 1:
-                controller_loadFromText("data.csv",listaEmpleados);
+            	if(flagCarga)
+            	{
+            		printf("El archivo ya fue cargado\n");
+            	}
+            	else
+            	{
+            		if(!controller_loadFromText("data3.csv",listaEmpleados))
+            		{
+                	flagCarga = 1;
+            		}
+            		else
+            		{
+            			printf("El archivo no se pudo cargar\n");
+            		}
+            	}
+
                 break;
             case 2:
+            	if(flagCarga)
+				{
+					printf("El archivo ya fue cargado\n");
+				}
+				else
+				{
+					if(!controller_loadFromBinary("data2.bin",listaEmpleados))
+					{
+					flagCarga = 1;
+					}
+					else
+					{
+						printf("El archivo no se pudo cargar\n");
+					}
+				}
+
             	break;
             case 3:
+
             	controller_addEmployee(listaEmpleados);
             	break;
             case 4:
-            	controller_editEmployee(listaEmpleados);
+            	if(!ll_len(listaEmpleados))
+				{
+					printf("Primero debe ingresar al menos un empleado\n");
+				}
+            	else
+            	{
+            		controller_editEmployee(listaEmpleados);
+            	}
+
             	break;
             case 5:
+            	if(!ll_len(listaEmpleados))
+				{
+					printf("Primero debe ingresar al menos un empleado\n");
+				}
+				else
+				{
+					controller_removeEmployee(listaEmpleados);
+				}
+
             	break;
             case 6:
-            	employee_printEmployees(listaEmpleados);
+            	if(!ll_len(listaEmpleados))
+				{
+					printf("Primero debe ingresar al menos un empleado\n");
+				}
+				else
+				{
+					controller_ListEmployee(listaEmpleados);
+				}
+
             	break;
             case 7:
+            	if(!ll_len(listaEmpleados))
+				{
+					printf("Primero debe ingresar al menos dos empleado\n");
+				}
+				else
+				{
+					controller_sortEmployee(listaEmpleados);
+				}
+
+
             	break;
             case 8:
+            	//guardar en modo texto probar
+            	if(!ll_len(listaEmpleados))
+				{
+					printf("No hay empleados a guardar\n");
+				}
+				else
+				{
+					controller_saveAsText("data3.csv",listaEmpleados);
+				}
+
             	break;
             case 9:
-            	break;
-            case 10:
+            	//guardar en modo binario probar
+            	if(!ll_len(listaEmpleados))
+				{
+					printf("No hay empleados a guardar\n");
+				}
+				else
+				{
+					controller_saveAsBinary("data2.bin",listaEmpleados);
+				}
+
             	break;
         }
     }while(option != 10);
 
-    system("pause");
+    //system("pause");
 
     return 0;
 }

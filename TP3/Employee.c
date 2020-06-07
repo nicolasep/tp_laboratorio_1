@@ -74,7 +74,21 @@ int employee_getId(Employee* this,int* id)
 
 	return retorno;
 }
+int employee_getIdChar(Employee* this,char* id)
+{
+	int retorno = -1;
 
+	if(this != NULL && id != NULL)
+	{
+		printf("id: %d",this->id);
+	sprintf(id,"%d",this->id);
+
+		//*id = this->id;
+		retorno = 0;
+	}
+
+	return retorno;
+}
 int employee_setNombre(Employee* this,char* nombre)
 {
 	int retorno = -1;
@@ -119,7 +133,18 @@ int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas)
 	}
 	return retorno;
 }
+int employee_getHorasTrabajadasChar(Employee* this,char* horasTrabajadas)
+{
+	int retorno = -1;
+	if(this != NULL && horasTrabajadas != NULL)
+	{
+		sprintf(horasTrabajadas,"%d",this->horasTrabajadas);
+		//*horasTrabajadas = this->horasTrabajadas;
 
+		retorno = 0;
+	}
+	return retorno;
+}
 int employee_setSueldo(Employee* this,int sueldo)
 {
 	int retorno = -1;
@@ -142,7 +167,18 @@ int employee_getSueldo(Employee* this,int* sueldo)
 	}
 	return retorno;
 }
+int employee_getSueldoChar(Employee* this,char* sueldo)
+{
+	int retorno = -1;
+	if(this != NULL && sueldo != NULL)
+	{
+		sprintf(sueldo,"%d",this->sueldo);
+		//*sueldo = this->sueldo;
 
+		retorno = 0;
+	}
+	return retorno;
+}
 /**
  * \brief Verifica si la cadena ingresada es un numero valido
  * \param cadena Cadena de caracteres a ser analizada
@@ -171,32 +207,21 @@ static int esId(char* cadena,int limite)
 
 	return retorno;
 }
-int employee_printEmployees(LinkedList* pArrayListEmployee)
-{
-	int retorno = -1;
-	int i;
-	Employee* aux;
-	if(pArrayListEmployee != NULL)
-	{
-		for(i=0;i<ll_len(pArrayListEmployee);i++)
-		{
-			aux = ll_get(pArrayListEmployee,i);
-			if(aux != NULL)
-			{
-				//printf("%d - %s - %d - %d\n",aux->id,aux->nombre,aux->horasTrabajadas,aux->sueldo);
-				employee_printEmployee(aux);
-			}
-			retorno = 0;
-		}
-	}
-	return retorno;
-}
 int employee_printEmployee(Employee* pElement)
 {
 	int retorno = -1;
-	if(pElement != NULL)
+	int auxId;
+	char auxNombre[128];
+	int auxHorasT;
+	int auxSueldo;
+
+	if(pElement != NULL &&
+	   !employee_getId(pElement,&auxId)&&
+	   !employee_getNombre(pElement,auxNombre)&&
+	   !employee_getHorasTrabajadas(pElement,&auxHorasT)&&
+	   !employee_getSueldo(pElement,&auxSueldo))
 	{
-		printf("ID: %d - NOMBRE: %s - HORAS T: %d - SUELDO: %d\n",pElement->id,pElement->nombre,pElement->horasTrabajadas,pElement->sueldo);
+		printf("ID: %4d - NOMBRE: %15s - HORAS T: %4d - SUELDO: %d\n",auxId,auxNombre,auxHorasT,auxSueldo);
 		retorno = 0;
 	}
 	return retorno;
@@ -261,7 +286,7 @@ int employee_idMax(LinkedList* pArrayListEmployee)
 
 	return retorno;
 }
-int employee_funcionCriterio(void* item1,void* item2)
+int employee_funcionCriterioPorSueldo(void* item1,void* item2)
 {
 	int retorno = 0;
 	int sueldo1;
@@ -278,6 +303,35 @@ int employee_funcionCriterio(void* item1,void* item2)
 				retorno = 1;
 			}
 			else if(sueldo1 < sueldo2)
+			{
+				retorno = -1;
+			}
+			else
+			{
+				retorno = employee_funcionCriterioPorHorasT(item1,item2);
+			}
+		}
+
+	}
+	return retorno;
+}
+int employee_funcionCriterioPorHorasT(void* item1,void* item2)
+{
+	int retorno = 0;
+	int horasT1;
+	int horasT2;
+	if(item1 != NULL && item2 != NULL)
+	{
+		Employee* aux1 =(Employee*) item1;
+		Employee* aux2 =(Employee*) item2;
+		if(!employee_getHorasTrabajadas(aux1,&horasT1)&&
+		   !employee_getHorasTrabajadas(aux2,&horasT2))
+		{
+			if(horasT1 > horasT2)
+			{
+				retorno = 1;
+			}
+			else if(horasT1 < horasT2)
 			{
 				retorno = -1;
 			}
