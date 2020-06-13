@@ -69,7 +69,7 @@ int main()
 				}
 				else
 				{
-					if(!controller_loadFromBinary("data.csv",listaEmpleados))
+					if(!controller_loadFromBinary("data.bin",listaEmpleados))
 					{
 					flagCarga = 1;
 					}
@@ -152,14 +152,13 @@ int main()
 				}
 				else
 				{
-					controller_saveAsBinary("data.csv",listaEmpleados);
+					controller_saveAsBinary("data.bin",listaEmpleados);
 				}
 
             	break;
         }
     }while(option != 10);
 
-    //system("pause");
 
     return 0;
 }

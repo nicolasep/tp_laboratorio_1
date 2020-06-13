@@ -303,6 +303,10 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 	{
 		for(i=0; i<ll_len(pArrayListEmployee); i++)
 		{
+			if(i==0)
+			{
+				fprintf(p,"id,nombre,horasTrabajadas,sueldo\n");
+			}
 			aux = ll_get(pArrayListEmployee,i);
 			if(aux != NULL)
 			{
