@@ -129,9 +129,7 @@ static int addNode(LinkedList* this, int nodeIndex,void* pElement)
 				nodeAux = getNode(this,nodeIndex-1);
 				nodeNew->pNextNode = nodeAux->pNextNode;
 				nodeAux->pNextNode = nodeNew;
-
 			}
-
 		}
 		this->size++;
 		returnAux = 0;
@@ -195,7 +193,6 @@ void* ll_get(LinkedList* this, int index)
     	{
     		returnAux = auxNode->pElement;
     	}
-
     }
 
     return returnAux;
@@ -230,7 +227,6 @@ int ll_set(LinkedList* this, int index,void* pElement)
 			{
 				auxNode->pElement = pElement;
 			}
-
     	}
     	returnAux = 0;
     }
@@ -281,8 +277,6 @@ int ll_remove(LinkedList* this,int index)
     		}
     	}
     	this->size--;
-
-
     }
 
 
@@ -305,7 +299,6 @@ int ll_clear(LinkedList* this)
     Node* auxNode2 = NULL;
     if(this != NULL)
     {
-
     	do
     	{
     		auxNode = getNode(this,indice);
@@ -329,8 +322,6 @@ int ll_clear(LinkedList* this)
     		}
 
     	}while(indice < ll_len(this)-1);
-
-
     	returnAux = 0;
     }
 
@@ -381,9 +372,7 @@ int ll_indexOf(LinkedList* this, void* pElement)
     			returnAux = indice;
     			break;
     		}
-
     	    indice++;
-
 
     	}while(indice < ll_len(this));
 
@@ -492,16 +481,6 @@ int ll_contains(LinkedList* this, void* pElement)
 
     	}while(indice < ll_len(this));
 
-    	/*
-		if(ll_indexOf(this,pElement) >-1)
-		{
-			returnAux = 1;
-		}
-		else
-		{
-			returnAux = 0;
-		}*/
-
     }
 
     return returnAux;
@@ -520,11 +499,9 @@ int ll_containsAll(LinkedList* this,LinkedList* this2)
 {
     int returnAux = -1;
     void* aux = NULL;
-    //void* aux2= NULL;
     int indice = 0;
     if(this != NULL && this2 != NULL)
     {
-
 		do
 		{
 			returnAux = 1;
@@ -568,18 +545,11 @@ LinkedList* ll_subList(LinkedList* this,int from,int to)
 			{
 				aux = ll_get(this,indice);
 				ll_add(cloneArray,aux);
-				if(aux!=NULL)
-				{
 
-
-
-				}
 				indice++;
-
 
 			}while(indice < to);
     	}
-
     }
 
     return cloneArray;
@@ -647,7 +617,6 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
 					ll_set(this,i,aux2);
 					ll_set(this,i+1,auxSwap);
 					flagSwap = 1;
-
 				}
 			}
 			limite--;
