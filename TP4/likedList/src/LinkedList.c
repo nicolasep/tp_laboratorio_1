@@ -320,8 +320,14 @@ int ll_deleteLinkedList(LinkedList* this)
     int returnAux = -1;
     if(this != NULL)
     {
-    	free(this);
-    	returnAux = 0;
+    	if(!ll_clear(this))
+    	{
+    		free(this);
+    		this->pFirstNode = NULL;
+    		this->size = 0;
+    		returnAux = 0;
+    	}
+
     }
 
     return returnAux;
@@ -481,18 +487,20 @@ int ll_containsAll(LinkedList* this,LinkedList* this2)
     int indice = 0;
     if(this != NULL && this2 != NULL)
     {
-		do
+    	do
 		{
 			returnAux = 1;
 			aux = ll_get(this2,indice);
-			if(ll_indexOf(this,aux)==-1)
-			{
-				returnAux = 0;
-				break;
-			}
-			indice++;
 
-		}while(indice < ll_len(this));
+				if(!ll_contains(this,aux))
+				{
+					returnAux = 0;
+					break;
+				}
+				indice++;
+
+
+		}while(indice < ll_len(this2));
     }
 
     return returnAux;
@@ -605,4 +613,3 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
     return returnAux;
 
 }
-
